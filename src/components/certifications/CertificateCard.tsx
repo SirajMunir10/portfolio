@@ -44,10 +44,16 @@ export function CertificateCard({ cert }: { cert: Certification }) {
           <BadgeCheck className="size-4" aria-hidden /> {cert.issuer}
         </p>
         <h3 className="mt-2 leading-snug font-semibold text-text">{cert.name}</h3>
-        <p className="mt-1.5 text-sm text-subtle">
-          Issued {cert.issued}
-          {cert.expires ? ` · Valid until ${cert.expires}` : ''}
-        </p>
+        {cert.inProgress ? (
+          <p className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-accent-2-soft px-2.5 py-0.5 text-xs font-medium text-accent-2">
+            <span className="size-1.5 animate-pulse rounded-full bg-accent-2" aria-hidden /> In progress
+          </p>
+        ) : (
+          <p className="mt-1.5 text-sm text-subtle">
+            Issued {cert.issued}
+            {cert.expires ? ` · Valid until ${cert.expires}` : ''}
+          </p>
+        )}
         <ul className="mt-4 flex flex-1 flex-wrap content-start gap-1.5" aria-label="Skills covered">
           {cert.skills.map((s) => (
             <li key={s}>
