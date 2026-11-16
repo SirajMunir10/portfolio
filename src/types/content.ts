@@ -79,7 +79,14 @@ export type Education = {
   details: string[]
 }
 
-export type Award = { title: string; issuer: string; date: string; description: string }
+export type Award = {
+  title: string
+  issuer: string
+  date: string
+  description: string
+  /** Image of the certificate, viewable in the page. */
+  certificate?: { src: string; width: number; height: number }
+}
 
 export type SkillGroup = { id: string; title: string; skills: string[] }
 

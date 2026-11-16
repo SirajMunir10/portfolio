@@ -29,18 +29,19 @@ export const awards: Award[] = [
     title: 'Merit scholarship, 3rd position',
     issuer: 'Foundation University Islamabad',
     date: 'Feb 2025',
-    description: '3rd in a batch of 150 students in the 5th semester, with a 3.9 GPA.',
+    description: 'Ranked 3rd in my batch in the 5th semester, with a 3.9 semester GPA.',
   },
   {
     title: 'Merit scholarship, 2nd position',
     issuer: 'Foundation University Islamabad',
     date: 'May 2024',
-    description: '2nd in a batch of 150 students in the 3rd semester, with a 3.9 GPA.',
+    description: 'Ranked 2nd in my batch in the 3rd semester, with a 3.9 semester GPA.',
   },
   {
     title: 'CodeWar Season 2, inter-university coding competition',
     issuer: 'HITEC University Taxila',
     date: 'Dec 2023',
-    description: 'Competed in a timed inter-university programming contest.',
+    description: 'Competed in a timed inter-university programming contest organised by HITEC University.',
+    certificate: { src: '/images/awards/codewar-season-2.jpg', width: 1600, height: 1131 },
   },
 ]
