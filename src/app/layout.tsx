@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { BackToTop } from '@/components/layout/BackToTop'
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
+import { ScrollNudges } from '@/components/layout/ScrollNudges'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { SkipLink } from '@/components/layout/SkipLink'
 import { ThemeScript } from '@/components/theme/ThemeScript'
@@ -41,6 +43,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           {children}
         </main>
         <Footer />
+        <BackToTop />
+        <ScrollNudges />
       </body>
     </html>
   )
