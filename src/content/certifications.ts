@@ -3,6 +3,13 @@ import type { Certification } from '@/types/content'
 /** Sources: LinkedIn "Licenses & certifications" and the certificate PDFs. */
 export const certifications: Certification[] = [
   {
+    name: 'AI Engineering Professional Certificate',
+    issuer: 'IBM',
+    issued: 'In progress',
+    inProgress: true,
+    skills: ['Deep learning', 'PyTorch', 'Generative AI', 'LLMs'],
+  },
+  {
     name: 'Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate',
     issuer: 'Oracle',
     issued: 'Oct 2025',

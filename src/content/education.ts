@@ -6,7 +6,7 @@ export const education: Education[] = [
     school: 'Foundation University Islamabad (FUSST campus)',
     location: 'Rawalpindi, Pakistan',
     start: 'Sep 2022',
-    end: 'Aug 2026',
+    end: 'Jun 2026',
     grade: 'CGPA 3.68 / 4.00',
     details: [
       'Final-year project: AVAGuard, AI-assisted cloud security compliance for Agency VA.',

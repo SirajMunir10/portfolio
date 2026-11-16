@@ -53,8 +53,8 @@ export function About() {
                   <Image
                     src={profile.photo.src}
                     alt={profile.photo.alt}
-                    width={420}
-                    height={570}
+                    width={938}
+                    height={1280}
                     sizes="(min-width: 1024px) 384px, 90vw"
                     className="aspect-4/5 w-full object-cover object-top transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]"
                   />

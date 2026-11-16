@@ -1,4 +1,5 @@
-﻿import { ArrowRight, Download, Mail, MapPin } from 'lucide-react'
+﻿import { ArrowRight, FileText, Mail, MapPin } from 'lucide-react'
+import { ResumeButton } from '@/components/resume/ResumeButton'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons/BrandIcons'
 import { Magnetic } from '@/components/motion/Magnetic'
 import { HeroVisual } from '@/components/three/HeroVisual'
@@ -101,11 +102,9 @@ export function Hero() {
             <ButtonLink href="#contact" variant="secondary" size="lg">
               Get in touch
             </ButtonLink>
-            {profile.resume ? (
-              <ButtonLink href={profile.resume.url} variant="ghost" size="lg">
-                <Download className="size-4" aria-hidden /> Resume
-              </ButtonLink>
-            ) : null}
+            <ResumeButton variant="ghost" size="lg">
+              <FileText className="size-4" aria-hidden /> View CV
+            </ResumeButton>
           </div>
 
           <div className="animate-rise mt-9 flex items-center gap-2" style={delay(480)}>

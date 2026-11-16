@@ -26,8 +26,9 @@ export type Experience = {
   company: string
   companyUrl?: string
   role: string
-  employment: string
-  location: string
+  /** e.g. "Internship · Remote"; omitted when not stated in the CV. */
+  employment?: string
+  location?: string
   start: string
   end: string | null
   summary: string
@@ -58,7 +59,9 @@ export type Project = {
 export type Certification = {
   name: string
   issuer: string
+  /** Issue date, or the expected completion for a course still in progress. */
   issued: string
+  inProgress?: boolean
   expires?: string
   credentialId?: string
   verifyUrl?: string

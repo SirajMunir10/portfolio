@@ -122,11 +122,13 @@ export function ExperienceTabs({ items }: { items: Experience[] }) {
                 <CalendarDays className="size-3.5" aria-hidden />
                 {job.start} – {job.end ?? 'Present'}
               </span>
-              <span className="inline-flex items-center gap-1.5">
-                <MapPin className="size-3.5" aria-hidden />
-                {job.location}
-              </span>
-              <span>{job.employment}</span>
+              {job.location ? (
+                <span className="inline-flex items-center gap-1.5">
+                  <MapPin className="size-3.5" aria-hidden />
+                  {job.location}
+                </span>
+              ) : null}
+              {job.employment ? <span>{job.employment}</span> : null}
             </p>
             <p className="mt-5 text-base leading-relaxed text-muted">{job.summary}</p>
             <ul className="mt-5 space-y-3">
