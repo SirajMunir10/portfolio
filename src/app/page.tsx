@@ -1,14 +1,13 @@
 import { About } from '@/components/sections/About'
+import { Certifications } from '@/components/sections/Certifications'
 import { Experience } from '@/components/sections/Experience'
 import { Hero } from '@/components/sections/Hero'
 import { Highlights } from '@/components/sections/Highlights'
 import { Projects } from '@/components/sections/Projects'
+import { Skills } from '@/components/sections/Skills'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { navigation } from '@/content/navigation'
 
-const built = new Set(['about', 'experience', 'projects'])
-
-/** One-page portfolio. Placeholder sections are replaced as each section branch lands. */
+/** One-page portfolio. The contact placeholder is replaced by its own branch. */
 export default function HomePage() {
   return (
     <>
@@ -17,24 +16,12 @@ export default function HomePage() {
       <About />
       <Experience />
       <Projects />
-      {navigation
-        .filter((item) => !built.has(item.id))
-        .map((item) => (
-          <section
-            key={item.id}
-            id={item.id}
-            aria-labelledby={`${item.id}-title`}
-            className="container-page py-28"
-          >
-            <SectionHeading
-              id={`${item.id}-title`}
-              eyebrow={item.label}
-              title={item.label}
-              description="Coming next."
-            />
-            <div className="h-64 rounded-2xl border border-dashed border-border" />
-          </section>
-        ))}
+      <Skills />
+      <Certifications />
+      <section id="contact" aria-labelledby="contact-title" className="container-page py-28">
+        <SectionHeading id="contact-title" eyebrow="Contact" title="Contact" description="Coming next." />
+        <div className="h-64 rounded-2xl border border-dashed border-border" />
+      </section>
     </>
   )
 }
