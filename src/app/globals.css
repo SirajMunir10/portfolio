@@ -275,6 +275,33 @@
   animation: rise 0.9s var(--ease-out-expo) both;
 }
 
+/*
+ * Arabic pages. Latin words keep Geist; Arabic script falls through to IBM Plex Sans Arabic.
+ * Arabic letters join, so they are never letter-spaced or slanted: tracking utilities and italics
+ * are reset, and heading emphasis keeps its colour with a heavier weight instead of a serif italic.
+ * Geist is named directly rather than through its variable: that variable also carries a size-matched
+ * Arial fallback, and Arial has Arabic glyphs, so Arabic text would stop there and never reach Plex.
+ * Unlayered on purpose, so these win over the utility classes.
+ */
+:lang(ar) body {
+  font-family: 'Geist', var(--font-arabic), ui-sans-serif, system-ui, sans-serif;
+}
+:lang(ar) .font-mono {
+  font-family: 'Geist Mono', var(--font-arabic), ui-monospace, monospace;
+}
+:lang(ar) [class*='tracking-'],
+:lang(ar) h1,
+:lang(ar) h2,
+:lang(ar) h3,
+:lang(ar) h4 {
+  letter-spacing: normal;
+}
+:lang(ar) em {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 600;
+}
+
 /* Visitors who ask for less motion get content without movement. */
 @media (prefers-reduced-motion: reduce) {
   *,
