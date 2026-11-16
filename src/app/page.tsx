@@ -1,5 +1,6 @@
 import { About } from '@/components/sections/About'
 import { Certifications } from '@/components/sections/Certifications'
+import { Education } from '@/components/sections/Education'
 import { Experience } from '@/components/sections/Experience'
 import { Hero } from '@/components/sections/Hero'
 import { Highlights } from '@/components/sections/Highlights'
@@ -18,6 +19,7 @@ export default function HomePage() {
       <Projects />
       <Skills />
       <Certifications />
+      <Education />
       <section id="contact" aria-labelledby="contact-title" className="container-page py-28">
         <SectionHeading id="contact-title" eyebrow="Contact" title="Contact" description="Coming next." />
         <div className="h-64 rounded-2xl border border-dashed border-border" />
