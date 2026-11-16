@@ -62,8 +62,10 @@ export type Certification = {
   expires?: string
   credentialId?: string
   verifyUrl?: string
-  /** PDF of the certificate, opened in the in-page viewer. */
+  /** Original PDF, offered for download. */
   file?: string
+  /** Rendered certificate shown in the in-page viewer (works on every device). */
+  image?: { src: string; width: number; height: number }
   skills: string[]
 }
 
