@@ -1,5 +1,5 @@
-import { profile } from '@/content/profile'
-import { skillGroups } from '@/content/skills'
+import type { Site } from '@/content'
+import { locales } from '@/i18n/config'
 
 /**
  * Public address of the site: NEXT_PUBLIC_SITE_URL when set (e.g. a custom domain),
@@ -13,42 +13,49 @@ export function siteUrl() {
   return 'http://localhost:3000'
 }
 
-export const site = {
-  title: `${profile.name} · ${profile.role} in Dubai`,
-  description:
-    'Siraj Munir is an AI Engineer in Dubai who builds LLM, RAG and voice AI products end to end: a 21-language chat and voice assistant, AI-assisted cloud security tooling and published ICU monitoring research.',
-  keywords: [
-    'Siraj Munir',
-    'AI Engineer',
-    'AI Engineer Dubai',
-    'LLM engineer',
-    'RAG',
-    'Voice AI',
-    'Conversational AI',
-    'Machine learning',
-    'FastAPI',
-    'Next.js',
-    'Portfolio',
-  ],
+export const keywords = [
+  'Siraj Munir',
+  'AI Engineer',
+  'LLM Engineer',
+  'AI Engineer Dubai',
+  'AI Engineer UAE',
+  'AI Engineer Germany',
+  'AI Engineer Netherlands',
+  'RAG',
+  'Voice AI',
+  'Conversational AI',
+  'Machine learning',
+  'FastAPI',
+  'Next.js',
+]
+
+/** hreflang alternates for every language, with English as the default. */
+export function languageAlternates() {
+  return {
+    ...Object.fromEntries(locales.map((l) => [l, `/${l}`])),
+    'x-default': '/en',
+  }
 }
 
 /** schema.org Person data, so search engines understand who the site is about. */
-export function personJsonLd() {
-  const url = siteUrl()
+export function personJsonLd(site: Site) {
+  const url = `${siteUrl()}/${site.locale}`
+  const { profile } = site
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: profile.name,
     alternateName: profile.fullName,
     jobTitle: profile.role,
-    description: site.description,
+    description: site.dict.meta.description,
     url,
-    image: profile.photo ? `${url}${profile.photo.src}` : undefined,
+    image: profile.photo ? `${siteUrl()}${profile.photo.src}` : undefined,
     email: `mailto:${profile.email}`,
     address: { '@type': 'PostalAddress', addressLocality: 'Dubai', addressCountry: 'AE' },
     worksFor: { '@type': 'Organization', name: 'Xoto', url: 'https://www.xoto.ae' },
     alumniOf: { '@type': 'CollegeOrUniversity', name: 'Foundation University Islamabad' },
-    knowsAbout: skillGroups.slice(0, 2).flatMap((g) => g.skills),
+    knowsAbout: site.skillGroups.slice(0, 2).flatMap((g) => g.skills),
+    knowsLanguage: site.spokenLanguages.map((l) => l.code),
     sameAs: [profile.socials.github, profile.socials.linkedin],
   }
 }

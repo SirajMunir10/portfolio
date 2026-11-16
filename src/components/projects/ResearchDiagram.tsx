@@ -1,27 +1,20 @@
+'use client'
+
+import { useI18n } from '@/i18n/I18nProvider'
+
 /**
  * Cover for the ICU research project: the paper's three-tier pipeline drawn in SVG,
  * with dashed "data" flowing between the layers (CSS animation, theme-aware colours).
+ * The flow always runs left to right, like the paper's figure; only the words are translated.
  */
-const layers = [
-  { x: 24, title: 'Speed layer', lines: ['Validates readings', 'in under 1 ms'] },
-  { x: 232, title: 'Hybrid layer', lines: ['Isolation Forest', 'anomaly detection'] },
-  { x: 440, title: 'Serving layer', lines: ['Alerts + history', 'in one view'] },
-]
-
-const results = [
-  ['−37.7%', 'false alarms'],
-  ['1.0', 'recall'],
-  ['0.54 ms', 'per record'],
-]
+const LAYER_X = [24, 232, 440]
+const VALUES = ['−37.7%', '1.0', '0.54 ms']
 
 export function ResearchDiagram() {
+  const { dict } = useI18n()
+  const t = dict.research
   return (
-    <svg
-      viewBox="0 0 640 400"
-      className="size-full"
-      role="img"
-      aria-label="Tiered Lambda architecture: vital signs flow through a speed layer, a hybrid layer with Isolation Forest, and a serving layer, cutting false alarms by 37.7% with recall of 1.0 at 0.54 ms per record"
-    >
+    <svg viewBox="0 0 640 400" className="size-full" role="img" aria-label={t.diagramLabel} direction="ltr">
       <defs>
         <linearGradient id="rd-flow" x1="0" x2="1">
           <stop offset="0" stopColor="var(--accent)" />
@@ -32,7 +25,7 @@ export function ResearchDiagram() {
       {/* Incoming heart-rate trace */}
       <g transform="translate(24 30)">
         <text x="0" y="14" className="fill-subtle font-mono" fontSize="13">
-          vital signs · 1 Hz stream
+          {t.stream}
         </text>
         <path
           d="M190 32 H260 L272 6 L286 60 L298 18 L308 32 H592"
@@ -64,9 +57,9 @@ export function ResearchDiagram() {
         />
       ))}
 
-      {layers.map((l, i) => (
-        <g key={l.title} transform={`translate(${l.x} 116)`}>
-          <rect width="180" height="160" rx="20" fill="var(--surface)" stroke="var(--border-strong)" />
+      {t.layers.map((l, i) => (
+        <g key={i} transform={`translate(${LAYER_X[i]} 116)`}>
+          <rect width="180" height="160" rx="20" fill="var(--surface-solid)" stroke="var(--border-strong)" />
           <rect x="20" y="0" width="140" height="5" rx="2.5" fill="url(#rd-flow)" opacity={0.55 + i * 0.2} />
           <text x="20" y="40" className="fill-accent font-mono" fontSize="14">
             {`0${i + 1}`}
@@ -74,22 +67,22 @@ export function ResearchDiagram() {
           <text x="20" y="72" className="fill-text" fontSize="21" fontWeight="600">
             {l.title}
           </text>
-          {l.lines.map((t, j) => (
-            <text key={t} x="20" y={104 + j * 22} className="fill-muted" fontSize="15">
-              {t}
+          {l.lines.map((line, j) => (
+            <text key={j} x="20" y={104 + j * 22} className="fill-muted" fontSize="15">
+              {line}
             </text>
           ))}
         </g>
       ))}
 
-      {results.map(([value, label], i) => (
-        <g key={label} transform={`translate(${24 + i * 208} 300)`}>
+      {VALUES.map((value, i) => (
+        <g key={value} transform={`translate(${24 + i * 208} 300)`}>
           <rect width="180" height="76" rx="16" fill="var(--accent-soft)" />
           <text x="20" y="36" className="fill-accent" fontSize="24" fontWeight="600">
             {value}
           </text>
           <text x="20" y="60" className="fill-muted font-mono" fontSize="13">
-            {label}
+            {t.chips[i]}
           </text>
         </g>
       ))}

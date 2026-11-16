@@ -7,7 +7,7 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { particleCallouts } from '@/content/callouts'
+import { useI18n } from '@/i18n/I18nProvider'
 import { clusters, knot, particleAttributes, sphere, wave } from './formations'
 
 const MORPH_SECONDS = 2.2
@@ -133,10 +133,15 @@ function Particles({
   pointer,
   onFormation,
   callout,
+  facts,
+  rtl,
 }: {
   pointer: PointerRef
   onFormation: (i: number) => void
   callout: CalloutRefs
+  facts: { label: string; detail: string }[]
+  /** Right-to-left pages put the text on the right, so the scene moves to the left. */
+  rtl: boolean
 }) {
   const { camera, gl, size } = useThree()
   const group = useRef<THREE.Group>(null)
@@ -241,7 +246,8 @@ function Particles({
     const g = group.current
     if (!g) return
     // Sit to the right of the text on wide screens; gentle rotation and pointer parallax.
-    g.position.x = THREE.MathUtils.lerp(g.position.x, size.width / size.height > 1.25 ? 2.35 : 0, 0.1)
+    const side = size.width / size.height > 1.25 ? 2.35 : 0
+    g.position.x = THREE.MathUtils.lerp(g.position.x, rtl ? -side : side, 0.1)
     g.rotation.y += dt * 0.12
     g.rotation.x = THREE.MathUtils.lerp(
       g.rotation.x,
@@ -290,7 +296,8 @@ function Particles({
         el.style.transform = `translate3d(${pos.x.toFixed(1)}px, ${pos.y.toFixed(1)}px, 0)`
         el.style.opacity = k.toFixed(3)
         el.style.setProperty('--k', k.toFixed(3))
-        el.dataset.side = pos.x > size.width - 300 ? 'left' : 'right'
+        // Labels open toward the page centre, and flip near the edge so they never leave the screen.
+        el.dataset.side = rtl ? (pos.x < 300 ? 'right' : 'left') : pos.x > size.width - 300 ? 'left' : 'right'
       }
       if (c.t >= CALLOUT_SECONDS) {
         c.active = false
@@ -308,8 +315,7 @@ function Particles({
           const pos = toScreen(shape, i)
           const visible =
             pos.front > 0.25 &&
-            pos.x > size.width * 0.6 &&
-            pos.x < size.width - 60 &&
+            (rtl ? pos.x < size.width * 0.4 && pos.x > 60 : pos.x > size.width * 0.6 && pos.x < size.width - 60) &&
             pos.y > size.height * 0.16 &&
             pos.y < size.height * 0.76
           if (!visible) continue
@@ -317,7 +323,7 @@ function Particles({
           c.index = i
           c.shape = s.to
           c.t = 0
-          const fact = particleCallouts[c.fact % particleCallouts.length]
+          const fact = facts[c.fact % facts.length]
           c.fact++
           if (callout.label.current) callout.label.current.textContent = fact.label
           if (callout.detail.current) callout.detail.current.textContent = fact.detail
@@ -350,6 +356,8 @@ type Props = { active: boolean; onFormation: (index: number) => void }
  * voice and reasoning. The cursor pushes particles away; a click morphs to the next shape.
  */
 export default function MorphField({ active, onFormation }: Props) {
+  const { callouts, dir } = useI18n()
+  const rtl = dir === 'rtl'
   const pointer = useRef({ x: 0, y: 0, active: false, clicks: 0 })
   const wrapper = useRef<HTMLDivElement>(null)
   const anchor = useRef<HTMLDivElement>(null)
@@ -373,12 +381,12 @@ export default function MorphField({ active, onFormation }: Props) {
         pointer.current.y = -((e.clientY - r.top) / r.height) * 2 + 1
       }
     }
-    // Clicks on the empty right-hand side of the hero morph the shape; links and buttons keep working.
+    // Clicks on the empty side of the hero (away from the text) morph the shape; links and buttons keep working.
     const onDown = (e: PointerEvent) => {
       const r = inside(e)
       if (!r || (e.target as Element).closest('a, button, input, textarea')) return
-      if (e.clientX < r.left + r.width * 0.45) return
-      pointer.current.clicks++
+      const offText = rtl ? e.clientX < r.left + r.width * 0.55 : e.clientX > r.left + r.width * 0.45
+      if (offText) pointer.current.clicks++
     }
     const onLeave = () => (pointer.current.active = false)
     window.addEventListener('pointermove', onMove, { passive: true })
@@ -389,7 +397,7 @@ export default function MorphField({ active, onFormation }: Props) {
       window.removeEventListener('pointerdown', onDown)
       document.removeEventListener('pointerleave', onLeave)
     }
-  }, [])
+  }, [rtl])
 
   return (
     <div ref={wrapper} className="absolute inset-0">
@@ -400,7 +408,7 @@ export default function MorphField({ active, onFormation }: Props) {
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         style={{ pointerEvents: 'none' }}
       >
-        <Particles pointer={pointer} onFormation={onFormation} callout={callout} />
+        <Particles pointer={pointer} onFormation={onFormation} callout={callout} facts={callouts} rtl={rtl} />
       </Canvas>
 
       {/* Callout that pops out of a particle: a pulsing ring on the particle, a thin leader line and a glass label.

@@ -1,26 +1,29 @@
 import { Reveal } from '@/components/motion/Reveal'
 import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { experience } from '@/content/experience'
+import type { Site } from '@/content'
 import { ExperienceTabs } from './ExperienceTabs'
 
-export function Experience() {
+export function Experience({ site }: { site: Site }) {
+  const t = site.dict.experience
   return (
     <section id="experience" aria-labelledby="experience-title" className="relative py-24 md:py-36">
       <div className="container-page">
         <SectionHeading
           index="02"
           id="experience-title"
-          eyebrow="Experience"
+          eyebrow={t.eyebrow}
           title={
             <>
-              Where I&apos;ve <Em>worked</Em>
+              {t.titleBefore}
+              <Em>{t.titleEm}</Em>
+              {t.titleAfter}
             </>
           }
-          description="From front-end and real-time systems to leading an international team, and now building production AI in Dubai."
+          description={t.description}
         />
         <Reveal>
-          <ExperienceTabs items={experience} />
+          <ExperienceTabs items={site.experience} />
         </Reveal>
       </div>
     </section>

@@ -2,20 +2,21 @@
 
 import { Menu } from 'lucide-react'
 import { motion, useMotionValueEvent, useScroll } from 'motion/react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ResumeButton } from '@/components/resume/ResumeButton'
 import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { ButtonLink } from '@/components/ui/Button'
-import { navigation } from '@/content/navigation'
-import { profile } from '@/content/profile'
 import { useActiveSection } from '@/hooks/useActiveSection'
+import { format } from '@/i18n/config'
+import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
+import { LanguageSwitcher } from './LanguageSwitcher'
 import { Logo } from './Logo'
 import { MobileMenu } from './MobileMenu'
 
-const ids = navigation.map((n) => n.id)
-
 export function Header() {
+  const { dict, profile, navigation } = useI18n()
+  const ids = useMemo(() => navigation.map((n) => n.id), [navigation])
   const active = useActiveSection(ids)
   const { scrollY } = useScroll()
   const [scrolled, setScrolled] = useState(false)
@@ -48,25 +49,25 @@ export function Header() {
           )}
         >
           <nav
-            aria-label="Main"
+            aria-label={dict.nav.mainLabel}
             className={cn(
-              'flex items-center justify-between gap-4 transition-[height,padding] duration-500',
+              'flex items-center justify-between gap-3 transition-[height,padding] duration-500',
               scrolled ? 'h-14 px-2 md:px-3' : 'container-page h-16 md:h-18'
             )}
           >
             <a
               href="#top"
-              className="flex items-center gap-3 rounded-xl"
-              aria-label={`${profile.name}, back to top`}
+              className="flex shrink-0 items-center gap-3 rounded-xl"
+              aria-label={format(dict.nav.backToTopLogo, { name: profile.name })}
             >
               <Logo />
-              <span className="hidden flex-col leading-tight sm:flex">
+              <span className="hidden flex-col leading-tight sm:flex xl:hidden 2xl:flex">
                 <span className="text-sm font-semibold text-text">{profile.name}</span>
                 <span className="font-mono text-[0.7rem] whitespace-nowrap text-subtle">{profile.role}</span>
               </span>
             </a>
 
-            <ul className="hidden items-center gap-1 xl:flex">
+            <ul className="hidden items-center gap-0.5 xl:flex">
               {navigation.map((item) => {
                 const isActive = active === item.id
                 return (
@@ -75,7 +76,7 @@ export function Header() {
                       href={`#${item.id}`}
                       aria-current={isActive ? 'true' : undefined}
                       className={cn(
-                        'relative z-10 block rounded-full px-3.5 py-2 text-sm transition-colors',
+                        'relative z-10 block rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors',
                         isActive ? 'text-text' : 'text-muted hover:text-text'
                       )}
                     >
@@ -93,18 +94,19 @@ export function Header() {
               })}
             </ul>
 
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2">
+              <LanguageSwitcher />
               <ThemeToggle />
-              <ResumeButton variant="secondary" size="sm" className="hidden md:inline-flex">
-                Resume
+              <ResumeButton variant="secondary" size="sm" className="hidden 2xl:inline-flex">
+                {dict.common.resume}
               </ResumeButton>
               <ButtonLink href="#contact" size="sm" className="hidden md:inline-flex">
-                Let&apos;s talk
+                {dict.common.letsTalk}
               </ButtonLink>
               <button
                 type="button"
                 onClick={() => setMenuOpen(true)}
-                aria-label="Open menu"
+                aria-label={dict.nav.openMenu}
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu"
                 className="glass grid size-10 place-items-center rounded-full border border-border text-text xl:hidden"

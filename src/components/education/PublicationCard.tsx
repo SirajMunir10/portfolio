@@ -6,18 +6,20 @@ import { useCallback, useState } from 'react'
 import { GitHubIcon } from '@/components/icons/BrandIcons'
 import { Button } from '@/components/ui/Button'
 import { DocumentViewer } from '@/components/ui/DocumentViewer'
-import { profile } from '@/content/profile'
+import { useI18n } from '@/i18n/I18nProvider'
 import type { Research } from '@/types/content'
 
 /** The research paper: authors, expandable abstract, method, key results and the paper itself. */
 export function PublicationCard({ research }: { research: Research }) {
+  const { dict, profile } = useI18n()
+  const t = dict.education
   const [abstractOpen, setAbstractOpen] = useState(false)
   const [paperOpen, setPaperOpen] = useState(false)
   const closePaper = useCallback(() => setPaperOpen(false), [])
 
   return (
     <article className="glass rounded-3xl border border-border p-6 md:p-8">
-      <p className="font-mono text-xs tracking-[0.18em] text-accent uppercase">Research paper</p>
+      <p className="font-mono text-xs tracking-[0.18em] text-accent uppercase">{t.paper}</p>
       <h3 className="mt-3 text-xl leading-snug font-semibold text-text md:text-2xl">{research.title}</h3>
       <p className="mt-3 text-sm text-muted">
         {research.authors.map((a, i) => (
@@ -47,9 +49,9 @@ export function PublicationCard({ research }: { research: Research }) {
         type="button"
         onClick={() => setAbstractOpen((v) => !v)}
         aria-expanded={abstractOpen}
-        className="mt-6 flex w-full items-center justify-between rounded-xl border border-border px-4 py-3 text-left text-sm font-medium text-text transition-colors hover:bg-surface-2"
+        className="mt-6 flex w-full items-center justify-between rounded-xl border border-border px-4 py-3 text-start text-sm font-medium text-text transition-colors hover:bg-surface-2"
       >
-        Abstract and method
+        {t.abstract}
         <ChevronDown
           className={`size-4 transition-transform ${abstractOpen ? 'rotate-180' : ''}`}
           aria-hidden
@@ -79,7 +81,7 @@ export function PublicationCard({ research }: { research: Research }) {
 
       <div className="mt-6 flex flex-wrap gap-2">
         <Button size="sm" onClick={() => setPaperOpen(true)}>
-          <FileText className="size-4" aria-hidden /> Read the paper
+          <FileText className="size-4" aria-hidden /> {dict.projects.readPaper}
         </Button>
         <a
           href={research.repo}
@@ -87,7 +89,7 @@ export function PublicationCard({ research }: { research: Research }) {
           rel="noopener noreferrer"
           className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-3.5 text-sm text-muted transition-colors hover:text-text"
         >
-          <GitHubIcon className="size-4" /> Repository
+          <GitHubIcon className="size-4" /> {t.repository}
         </a>
       </div>
 
@@ -95,7 +97,7 @@ export function PublicationCard({ research }: { research: Research }) {
         open={paperOpen}
         onClose={closePaper}
         title="Reducing ICU Alarm Fatigue"
-        subtitle="Research paper (PDF)"
+        subtitle={dict.projects.paperPdf}
         src={research.pdf}
         downloadName="Siraj-Munir-ICU-Alarm-Fatigue-Paper.pdf"
       />

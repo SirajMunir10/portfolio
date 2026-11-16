@@ -11,12 +11,12 @@ export function Timeline({ children }: { children: ReactNode }) {
   const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 28 })
 
   return (
-    <ol ref={ref} className="relative space-y-8 pl-8">
-      <span aria-hidden className="absolute top-2 bottom-2 left-1.75 w-px bg-border" />
+    <ol ref={ref} className="relative space-y-8 ps-8">
+      <span aria-hidden className="absolute start-1.75 top-2 bottom-2 w-px bg-border" />
       <motion.span
         aria-hidden
         style={reduce ? undefined : { scaleY }}
-        className="absolute top-2 bottom-2 left-1.75 w-px origin-top bg-linear-to-b from-accent to-accent-2"
+        className="absolute start-1.75 top-2 bottom-2 w-px origin-top bg-linear-to-b from-accent to-accent-2"
       />
       {children}
     </ol>
@@ -43,7 +43,7 @@ export function TimelineItem({
     >
       <span
         aria-hidden
-        className={`absolute top-1.5 -left-8 grid size-3.75 place-items-center rounded-full border-2 bg-bg ${highlight ? 'border-accent' : 'border-border-strong'}`}
+        className={`absolute -start-8 top-1.5 grid size-3.75 place-items-center rounded-full border-2 bg-bg ${highlight ? 'border-accent' : 'border-border-strong'}`}
       >
         {highlight ? <span className="size-1.5 rounded-full bg-accent" /> : null}
       </span>

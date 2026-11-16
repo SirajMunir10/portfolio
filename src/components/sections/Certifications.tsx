@@ -2,28 +2,26 @@ import { CertificateCard } from '@/components/certifications/CertificateCard'
 import { Stagger, StaggerItem } from '@/components/motion/Reveal'
 import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { certifications } from '@/content/certifications'
+import type { Site } from '@/content'
 
-/** Earned certificates first; courses still in progress at the end. */
-const completedFirst = [...certifications].sort((a, b) => Number(!!a.inProgress) - Number(!!b.inProgress))
-
-export function Certifications() {
+export function Certifications({ site }: { site: Site }) {
+  const t = site.dict.certifications
+  // Earned certificates first; courses still in progress at the end.
+  const completedFirst = [...site.certifications].sort((a, b) => Number(!!a.inProgress) - Number(!!b.inProgress))
   return (
-    <section
-      id="certifications"
-      aria-labelledby="certifications-title"
-      className="container-page py-24 md:py-32"
-    >
+    <section id="certifications" aria-labelledby="certifications-title" className="container-page py-24 md:py-32">
       <SectionHeading
         index="05"
         id="certifications-title"
-        eyebrow="Certifications"
+        eyebrow={t.eyebrow}
         title={
           <>
-            Verified <Em>learning</Em>
+            {t.titleBefore}
+            <Em>{t.titleEm}</Em>
+            {t.titleAfter}
           </>
         }
-        description="Open any certificate to see it in full, download the original or check it with the issuer."
+        description={t.description}
       />
       <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {completedFirst.map((c) => (

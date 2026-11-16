@@ -2,6 +2,7 @@
 
 import { Download, ExternalLink } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { useI18n } from '@/i18n/I18nProvider'
 import { Modal } from './Modal'
 
 type Props = {
@@ -22,6 +23,7 @@ const action =
  * to open it in their own viewer instead.
  */
 export function DocumentViewer({ open, onClose, title, subtitle, src, downloadName }: Props) {
+  const { dict } = useI18n()
   return (
     <Modal
       open={open}
@@ -33,11 +35,11 @@ export function DocumentViewer({ open, onClose, title, subtitle, src, downloadNa
         <>
           <a href={src} target="_blank" rel="noopener noreferrer" className={action}>
             <ExternalLink className="size-4" aria-hidden />
-            <span className="hidden sm:inline">Open</span>
+            <span className="hidden sm:inline">{dict.common.open}</span>
           </a>
           <a href={src} download={downloadName} className={action}>
             <Download className="size-4" aria-hidden />
-            <span className="hidden sm:inline">Download</span>
+            <span className="hidden sm:inline">{dict.common.download}</span>
           </a>
         </>
       }
@@ -45,16 +47,14 @@ export function DocumentViewer({ open, onClose, title, subtitle, src, downloadNa
       <div className="relative h-[78dvh] bg-surface-2">
         <iframe src={`${src}#view=FitH`} title={title} className="hidden size-full md:block" />
         <div className="flex size-full flex-col items-center justify-center gap-4 p-8 text-center md:hidden">
-          <p className="max-w-xs text-sm text-muted">
-            Your phone opens PDFs in its own viewer. Tap below to read it, then come back to this page.
-          </p>
+          <p className="max-w-xs text-sm text-muted">{dict.viewer.phoneNote}</p>
           <a
             href={src}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-11 items-center gap-2 rounded-full bg-accent px-5 font-medium text-accent-contrast"
           >
-            <ExternalLink className="size-4" aria-hidden /> Open the document
+            <ExternalLink className="size-4" aria-hidden /> {dict.viewer.openDocument}
           </a>
         </div>
       </div>

@@ -1,21 +1,21 @@
 import { CountUp } from '@/components/motion/CountUp'
 import { Stagger, StaggerItem } from '@/components/motion/Reveal'
-import { highlights } from '@/content/profile'
+import type { Site } from '@/content'
 
 /** Four proof points right under the hero, in one glass panel. Numbers count up the first time they are seen. */
-export function Highlights() {
+export function Highlights({ site }: { site: Site }) {
   return (
-    <section aria-label="Highlights" className="container-page pb-8">
+    <section aria-label={site.dict.highlights.label} className="container-page pb-8">
       <Stagger className="glass grid grid-cols-2 overflow-hidden rounded-3xl border border-border md:grid-cols-4">
-        {highlights.map((h, i) => (
+        {site.highlights.map((h, i) => (
           <StaggerItem
             key={h.label}
             className={[
               'border-border p-5 md:p-8',
-              i % 2 === 0 ? 'border-r' : '',
+              i % 2 === 0 ? 'border-e' : '',
               i < 2 ? 'border-b md:border-b-0' : '',
-              i === 1 ? 'md:border-r' : '',
-              i === 3 ? '' : 'md:border-r',
+              i === 1 ? 'md:border-e' : '',
+              i === 3 ? '' : 'md:border-e',
             ].join(' ')}
           >
             <p className="text-4xl font-semibold tracking-tighter text-text md:text-5xl">

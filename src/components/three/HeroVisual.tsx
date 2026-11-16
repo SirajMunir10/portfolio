@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'motion/react'
 import dynamic from 'next/dynamic'
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
-import { formationInfo } from './formations'
+import { useI18n } from '@/i18n/I18nProvider'
 
 // Loaded in its own chunk, only on capable devices, after the page is idle: never blocks first paint.
 const MorphField = dynamic(() => import('./MorphField'), { ssr: false })
@@ -22,6 +22,7 @@ function supportsWebGL() {
  * particle scene on desktop-sized screens with motion allowed and WebGL available.
  */
 export function HeroVisual({ fallback }: { fallback: ReactNode }) {
+  const { dict, formations: formationInfo } = useI18n()
   const ref = useRef<HTMLDivElement>(null)
   const [enabled, setEnabled] = useState(false)
   const [running, setRunning] = useState(true)
@@ -70,7 +71,7 @@ export function HeroVisual({ fallback }: { fallback: ReactNode }) {
           <div className="absolute inset-0 animate-[fade-in_1.4s_ease-out_both]">
             <MorphField active={running} onFormation={onFormation} />
           </div>
-          <div className="absolute right-8 bottom-8 hidden w-72 text-right md:block">
+          <div className="absolute end-8 bottom-8 hidden w-72 text-end md:block">
             <AnimatePresence mode="wait">
               <motion.p
                 key={info.name}
@@ -80,16 +81,14 @@ export function HeroVisual({ fallback }: { fallback: ReactNode }) {
                 transition={{ duration: 0.45 }}
                 className="text-sm font-medium text-text"
               >
-                <span className="mr-2 font-mono text-xs text-accent">
+                <span className="me-2 font-mono text-xs text-accent">
                   {String(formation + 1).padStart(2, '0')} / {String(formationInfo.length).padStart(2, '0')}
                 </span>
                 {info.name}
                 <span className="mt-0.5 block text-xs font-normal text-muted">{info.detail}</span>
               </motion.p>
             </AnimatePresence>
-            <p className="mt-3 font-mono text-[0.68rem] text-subtle">
-              Move to disturb · click the shape to morph
-            </p>
+            <p className="mt-3 font-mono text-[0.68rem] text-subtle">{dict.hero.sceneHint}</p>
           </div>
         </>
       ) : null}

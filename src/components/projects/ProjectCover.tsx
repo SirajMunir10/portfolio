@@ -11,7 +11,7 @@ export function ProjectCover({ project, priority = false }: { project: Project; 
         <span className="size-2.5 rounded-full bg-border-strong" />
         <span className="size-2.5 rounded-full bg-border-strong" />
         <span className="size-2.5 rounded-full bg-border-strong" />
-        <span className="ml-3 truncate font-mono text-[0.7rem] text-subtle">
+        <span className="ms-3 truncate font-mono text-[0.7rem] text-subtle">
           {project.links.live?.replace(/^https?:\/\//, '') ?? `${project.slug}`}
         </span>
       </div>
