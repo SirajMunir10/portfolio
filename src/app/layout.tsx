@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { Footer } from '@/components/layout/Footer'
+import { Header } from '@/components/layout/Header'
+import { ScrollProgress } from '@/components/layout/ScrollProgress'
+import { SkipLink } from '@/components/layout/SkipLink'
 import { ThemeScript } from '@/components/theme/ThemeScript'
 import './globals.css'
 
@@ -29,7 +33,15 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       <head>
         <ThemeScript />
       </head>
-      <body>{children}</body>
+      <body id="top">
+        <SkipLink />
+        <ScrollProgress />
+        <Header />
+        <main id="main" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
+        <Footer />
+      </body>
     </html>
   )
 }
