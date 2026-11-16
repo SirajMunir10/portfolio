@@ -14,7 +14,7 @@ function Headline() {
   return (
     <>
       {before}
-      <span className="bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent">
+      <span className="bg-linear-to-r from-accent to-accent-2 bg-clip-text text-transparent">
         {headlineHighlight}
       </span>
       {after}
@@ -41,7 +41,7 @@ export function Hero() {
       </div>
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-bg/70 via-bg/40 to-bg md:bg-gradient-to-r md:from-bg md:from-25% md:via-bg/60 md:via-45% md:to-transparent md:to-70%"
+        className="absolute inset-0 -z-10 bg-linear-to-b from-bg/70 via-bg/40 to-bg md:bg-linear-to-r md:from-bg md:from-25% md:via-bg/60 md:via-45% md:to-transparent md:to-70%"
       />
 
       <div className="container-page">
@@ -116,7 +116,7 @@ export function Hero() {
               aria-label="GitHub"
               className={iconLink}
             >
-              <GitHubIcon className="size-[18px]" />
+              <GitHubIcon className="size-4.5" />
             </a>
             <a
               href={profile.socials.linkedin}
@@ -125,10 +125,10 @@ export function Hero() {
               aria-label="LinkedIn"
               className={iconLink}
             >
-              <LinkedInIcon className="size-[18px]" />
+              <LinkedInIcon className="size-4.5" />
             </a>
             <a href={`mailto:${profile.email}`} aria-label="Email" className={iconLink}>
-              <Mail className="size-[18px]" aria-hidden />
+              <Mail className="size-4.5" aria-hidden />
             </a>
           </div>
         </div>
@@ -136,7 +136,7 @@ export function Hero() {
 
       {/* Explains the 3D scene to curious visitors (desktop only, where it is interactive). */}
       <p
-        className="animate-rise absolute right-8 bottom-8 hidden max-w-[17rem] items-start gap-2 text-right font-mono text-[0.7rem] leading-relaxed text-subtle md:flex"
+        className="animate-rise absolute right-8 bottom-8 hidden max-w-68 items-start gap-2 text-right font-mono text-[0.7rem] leading-relaxed text-subtle md:flex"
         style={delay(1200)}
       >
         <MousePointer2 className="mt-0.5 size-3.5 shrink-0" aria-hidden />

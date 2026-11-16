@@ -47,7 +47,7 @@ export function Header() {
         >
           <nav
             aria-label="Main"
-            className="container-page flex h-16 items-center justify-between gap-4 md:h-[4.5rem]"
+            className="container-page flex h-16 items-center justify-between gap-4 md:h-18"
           >
             <a
               href="#top"
@@ -111,7 +111,7 @@ export function Header() {
                 aria-controls="mobile-menu"
                 className="grid size-10 place-items-center rounded-full border border-border bg-surface text-text lg:hidden"
               >
-                <Menu className="size-[18px]" aria-hidden />
+                <Menu className="size-4.5" aria-hidden />
               </button>
             </div>
           </nav>

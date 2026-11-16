@@ -39,7 +39,7 @@ export function MobileMenu({ open, onClose, active }: Props) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[70] flex flex-col bg-bg lg:hidden"
+          className="fixed inset-0 z-70 flex flex-col bg-bg lg:hidden"
         >
           <div className="container-page flex h-16 items-center justify-end">
             <button
@@ -49,7 +49,7 @@ export function MobileMenu({ open, onClose, active }: Props) {
               aria-label="Close menu"
               className="grid size-10 place-items-center rounded-full border border-border bg-surface text-text"
             >
-              <X className="size-[18px]" aria-hidden />
+              <X className="size-4.5" aria-hidden />
             </button>
           </div>
 
@@ -99,7 +99,7 @@ export function MobileMenu({ open, onClose, active }: Props) {
                   aria-label="GitHub"
                   className="grid size-10 place-items-center rounded-full border border-border text-muted hover:text-text"
                 >
-                  <GitHubIcon className="size-[18px]" />
+                  <GitHubIcon className="size-4.5" />
                 </a>
                 <a
                   href={profile.socials.linkedin}
@@ -108,7 +108,7 @@ export function MobileMenu({ open, onClose, active }: Props) {
                   aria-label="LinkedIn"
                   className="grid size-10 place-items-center rounded-full border border-border text-muted hover:text-text"
                 >
-                  <LinkedInIcon className="size-[18px]" />
+                  <LinkedInIcon className="size-4.5" />
                 </a>
               </span>
               {profile.resume ? (

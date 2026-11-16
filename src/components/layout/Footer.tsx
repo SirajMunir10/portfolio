@@ -39,7 +39,7 @@ export function Footer() {
 
         <div className="flex gap-2">
           <a href={`mailto:${profile.email}`} aria-label="Email" className={socialClass}>
-            <Mail className="size-[18px]" aria-hidden />
+            <Mail className="size-4.5" aria-hidden />
           </a>
           <a
             href={profile.socials.github}
@@ -48,7 +48,7 @@ export function Footer() {
             aria-label="GitHub"
             className={socialClass}
           >
-            <GitHubIcon className="size-[18px]" />
+            <GitHubIcon className="size-4.5" />
           </a>
           <a
             href={profile.socials.linkedin}
@@ -57,7 +57,7 @@ export function Footer() {
             aria-label="LinkedIn"
             className={socialClass}
           >
-            <LinkedInIcon className="size-[18px]" />
+            <LinkedInIcon className="size-4.5" />
           </a>
         </div>
       </div>
