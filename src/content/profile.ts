@@ -22,7 +22,7 @@ export const profile: Profile = {
     linkedin: 'https://www.linkedin.com/in/siraj-munir-10furc',
   },
   resume: null,
-  photo: null,
+  photo: { src: '/images/profile/siraj-munir.jpg', alt: 'Portrait of Siraj Munir' },
   focusAreas: [
     {
       title: 'LLM applications',
