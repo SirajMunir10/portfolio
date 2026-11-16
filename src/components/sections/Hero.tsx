@@ -34,7 +34,7 @@ export function Hero() {
       {/* Background: dotted grid, then the embedding space, then a fade that keeps the text readable. */}
       <div
         aria-hidden
-        className="bg-dots absolute inset-0 -z-20 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"
+        className="bg-dots absolute inset-0 -z-20 mask-[radial-gradient(ellipse_at_center,black,transparent_75%)]"
       />
       <div className="absolute inset-0 -z-10 opacity-40 md:opacity-100">
         <HeroVisual fallback={<StaticField />} />
