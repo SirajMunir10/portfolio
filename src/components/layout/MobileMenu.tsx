@@ -4,6 +4,7 @@ import { ArrowUpRight, Mail, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useRef } from 'react'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons/BrandIcons'
+import { ResumeButton } from '@/components/resume/ResumeButton'
 import { navigation } from '@/content/navigation'
 import { profile } from '@/content/profile'
 import { cn } from '@/lib/utils'
@@ -111,14 +112,12 @@ export function MobileMenu({ open, onClose, active }: Props) {
                   <LinkedInIcon className="size-4.5" />
                 </a>
               </span>
-              {profile.resume ? (
-                <a
-                  href={profile.resume.url}
-                  className="inline-flex items-center gap-1 text-sm font-medium text-accent"
-                >
-                  Resume <ArrowUpRight className="size-4" aria-hidden />
-                </a>
-              ) : null}
+              <ResumeButton
+                unstyled
+                className="inline-flex items-center gap-1 text-sm font-medium text-accent"
+              >
+                View CV <ArrowUpRight className="size-4" aria-hidden />
+              </ResumeButton>
             </motion.div>
           </nav>
         </motion.div>

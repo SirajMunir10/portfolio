@@ -3,6 +3,7 @@
 import { Menu } from 'lucide-react'
 import { motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { useState } from 'react'
+import { ResumeButton } from '@/components/resume/ResumeButton'
 import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { ButtonLink } from '@/components/ui/Button'
 import { navigation } from '@/content/navigation'
@@ -90,16 +91,9 @@ export function Header() {
 
             <div className="flex items-center gap-2">
               <ThemeToggle />
-              {profile.resume ? (
-                <ButtonLink
-                  href={profile.resume.url}
-                  variant="secondary"
-                  size="sm"
-                  className="hidden md:inline-flex"
-                >
-                  Resume
-                </ButtonLink>
-              ) : null}
+              <ResumeButton variant="secondary" size="sm" className="hidden md:inline-flex">
+                Resume
+              </ResumeButton>
               <ButtonLink href="#contact" size="sm" className="hidden md:inline-flex">
                 Let&apos;s talk
               </ButtonLink>
