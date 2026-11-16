@@ -5,51 +5,62 @@
 
 /* ---------------------------------------------------------------------------
    Design tokens. Light is the default; dark overrides the same names.
-   Contrast: text, muted and accent all meet WCAG AA on bg and surface.
+   Palette: electric violet + coral over warm neutrals. Surfaces are translucent
+   ("glass") and sit over the aurora backdrop. Text, muted and accent meet WCAG AA.
    --------------------------------------------------------------------------- */
 :root {
-  --bg: #fafaf9;
-  --surface: #ffffff;
-  --surface-2: #f4f4f5;
-  --text: #111113;
-  --muted: #52525b;
-  --subtle: #71717a;
-  --border: #e4e4e7;
-  --border-strong: #d4d4d8;
-  --accent: #4f46e5;
-  --accent-hover: #4338ca;
-  --accent-soft: #eef2ff;
+  --bg: #f6f4f1;
+  --surface: rgb(255 255 255 / 0.62);
+  --surface-solid: #fdfcfb;
+  --surface-2: rgb(24 20 32 / 0.045);
+  --text: #15121b;
+  --muted: #56505f;
+  --subtle: #6f6878;
+  --border: rgb(24 20 32 / 0.09);
+  --border-strong: rgb(24 20 32 / 0.16);
+  --accent: #6a45ff;
+  --accent-hover: #5a33f2;
+  --accent-soft: rgb(106 69 255 / 0.1);
   --accent-contrast: #ffffff;
-  --accent-2: #0d9488;
-  --accent-2-soft: #f0fdfa;
-  --ring: #6366f1;
-  --shadow-color: 240 6% 10%;
+  --accent-2: #d1401c;
+  --accent-2-soft: rgb(255 98 61 / 0.12);
+  --ring: #7b5cff;
+  --shadow-color: 260 30% 20%;
+  --aurora-1: rgb(124 92 255 / 0.32);
+  --aurora-2: rgb(255 112 74 / 0.26);
+  --aurora-3: rgb(64 160 255 / 0.2);
   color-scheme: light;
 }
 
 [data-theme='dark'] {
-  --bg: #0a0a0b;
-  --surface: #141417;
-  --surface-2: #1c1c21;
-  --text: #f4f4f5;
-  --muted: #a1a1aa;
-  --subtle: #8b8b94;
-  --border: #27272a;
-  --border-strong: #3f3f46;
-  --accent: #818cf8;
-  --accent-hover: #a5b4fc;
-  --accent-soft: #1e1b4b;
-  --accent-contrast: #0a0a0b;
-  --accent-2: #2dd4bf;
-  --accent-2-soft: #042f2e;
-  --ring: #a5b4fc;
-  --shadow-color: 0 0% 0%;
+  --bg: #08070c;
+  --surface: rgb(255 255 255 / 0.045);
+  --surface-solid: #121019;
+  --surface-2: rgb(255 255 255 / 0.06);
+  --text: #f5f3fa;
+  --muted: #aaa4b8;
+  --subtle: #8b8598;
+  --border: rgb(255 255 255 / 0.09);
+  --border-strong: rgb(255 255 255 / 0.17);
+  --accent: #a08bff;
+  --accent-hover: #b9a9ff;
+  --accent-soft: rgb(160 139 255 / 0.14);
+  --accent-contrast: #0b0912;
+  --accent-2: #ff7d5c;
+  --accent-2-soft: rgb(255 125 92 / 0.13);
+  --ring: #b9a9ff;
+  --shadow-color: 260 60% 2%;
+  --aurora-1: rgb(112 80 255 / 0.3);
+  --aurora-2: rgb(255 96 60 / 0.16);
+  --aurora-3: rgb(40 120 255 / 0.18);
   color-scheme: dark;
 }
 
 @theme inline {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --color-surface-solid: var(--surface-solid);
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -140,6 +151,54 @@
     background-image: radial-gradient(color-mix(in oklab, var(--text) 9%, transparent) 1px, transparent 1px);
     background-size: 22px 22px;
   }
+
+  /* Frosted glass: translucent surface, background blur and a thin top highlight. */
+  .glass {
+    background-color: var(--surface);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.12),
+      0 1px 2px hsl(var(--shadow-color) / 0.05),
+      0 12px 32px -16px hsl(var(--shadow-color) / 0.22);
+  }
+}
+
+/* Aurora backdrop: three soft colour fields drifting slowly behind the whole page. */
+@keyframes aurora-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8vw, 6vh, 0) scale(1.15);
+  }
+}
+
+@keyframes aurora-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  50% {
+    transform: translate3d(-10vw, -4vh, 0) scale(0.95);
+  }
+}
+
+@keyframes aurora-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(6vw, -8vh, 0);
+  }
+}
+
+/* Very fine film grain over everything, for a tactile, printed feel. */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
 }
 
 /* Entrance animations. Pure CSS, so they start while the page is still loading. */
