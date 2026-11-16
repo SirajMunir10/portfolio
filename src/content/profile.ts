@@ -3,11 +3,11 @@ import type { Highlight, Profile, SpokenLanguage } from '@/types/content'
 export const profile: Profile = {
   name: 'Siraj Munir',
   fullName: 'Muhammad Siraj Munir',
-  role: 'AI Engineer',
+  role: 'AI Engineer · LLM Engineer',
   headline: 'I build LLM, RAG and voice AI products that people actually use.',
   headlineHighlight: 'LLM, RAG and voice AI',
   intro:
-    'AI Engineer in Dubai. I take AI products from idea to production: the language model and voice pipeline, the retrieval behind it, the backend it runs on, and the tests and admin tools that keep it reliable once real users arrive.',
+    'Software engineer specialising in large language models, retrieval-augmented generation and backend systems. I take AI products from idea to production: the conversational and voice pipeline, the retrieval behind it, and the backend, tests and admin tools that keep it reliable.',
   about: [
     'At Xoto I built XO, a chat and voice assistant for UAE real estate and mortgages. It answers in 21 languages, searches live property listings, works out mortgage eligibility with a rule-based engine so the model never does the maths, and hands serious buyers to an advisor. I also built the admin portal the team uses to review conversations, update the knowledge base and change lending rules without waiting on a developer.',
     'I graduated in Software Engineering from Foundation University Islamabad with a 3.68 CGPA and two merit scholarships. My final-year research on ICU alarm fatigue cut false alarms by 37.7% without missing a single real event, and my final-year project, AVAGuard, automates cloud security audits against CIS benchmarks with AI-generated remediation guidance.',
@@ -21,8 +21,11 @@ export const profile: Profile = {
     github: 'https://github.com/SirajMunir10',
     linkedin: 'https://www.linkedin.com/in/siraj-munir-10furc',
   },
-  resume: null,
-  photo: { src: '/images/profile/siraj-munir.jpg', alt: 'Portrait of Siraj Munir' },
+  resume: { url: '/documents/cv/Siraj-Munir-AI-Engineer-CV.pdf', fileName: 'Siraj-Munir-AI-Engineer-CV.pdf' },
+  photo: {
+    src: '/images/profile/siraj-munir-portrait.jpg',
+    alt: 'Siraj Munir in a dark suit, seated at a bar in soft light',
+  },
   focusAreas: [
     {
       title: 'LLM applications',
