@@ -32,6 +32,8 @@ const arabic = IBM_Plex_Sans_Arabic({
   weight: ['400', '500', '600', '700'],
   display: 'swap',
   preload: false,
+  // No size-matched Arial stand-in: Arial would also catch the Arabic glyphs this font is here for.
+  adjustFontFallback: false,
 })
 
 /** Every language is prerendered as static HTML. */

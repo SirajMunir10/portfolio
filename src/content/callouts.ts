@@ -13,5 +13,5 @@ export const particleCallouts: { label: string; detail: string }[] = [
   { label: 'Oracle AI Foundations', detail: 'certified associate' },
   { label: 'IBM Machine Learning', detail: 'certified with Python' },
   { label: 'CGPA 3.68', detail: 'two merit scholarships' },
-  { label: 'Based in Dubai', detail: 'open to AI Engineer roles' },
+  { label: 'Based in Dubai', detail: 'open to roles in UAE, USA, DE, NL' },
 ]
