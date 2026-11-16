@@ -61,7 +61,7 @@ export function Header() {
               </span>
             </a>
 
-            <ul className="hidden items-center gap-1 lg:flex">
+            <ul className="hidden items-center gap-1 xl:flex">
               {navigation.map((item) => {
                 const isActive = active === item.id
                 return (
@@ -109,7 +109,7 @@ export function Header() {
                 aria-label="Open menu"
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu"
-                className="grid size-10 place-items-center rounded-full border border-border bg-surface text-text lg:hidden"
+                className="grid size-10 place-items-center rounded-full border border-border bg-surface text-text xl:hidden"
               >
                 <Menu className="size-4.5" aria-hidden />
               </button>

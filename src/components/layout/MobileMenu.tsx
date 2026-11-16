@@ -39,7 +39,7 @@ export function MobileMenu({ open, onClose, active }: Props) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-70 flex flex-col bg-bg lg:hidden"
+          className="fixed inset-0 z-70 flex flex-col bg-bg xl:hidden"
         >
           <div className="container-page flex h-16 items-center justify-end">
             <button
