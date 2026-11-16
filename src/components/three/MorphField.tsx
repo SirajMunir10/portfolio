@@ -7,6 +7,7 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { particleCallouts } from '@/content/callouts'
 import { clusters, knot, particleAttributes, sphere, wave } from './formations'
 
 const MORPH_SECONDS = 2.2
@@ -47,6 +48,8 @@ const vertexShader = /* glsl */ `
   uniform float uScroll;
   uniform float uPointerStrength;
   uniform vec3 uPointer;
+  uniform vec3 uFocus;
+  uniform float uFocusStrength;
   uniform vec4 uFrom;
   uniform vec4 uTo;
   attribute vec3 aP1;
@@ -78,11 +81,13 @@ const vertexShader = /* glsl */ `
     vec3 d = p - uPointer;
     float f = smoothstep(1.5, 0.0, length(d)) * uPointerStrength;
     p += normalize(d + 0.0001) * f * 0.75;
-    vGlow = f;
+    // A highlighted particle (and its close neighbours) flares up while its callout is shown.
+    float ff = smoothstep(0.32, 0.0, length(p - uFocus)) * uFocusStrength;
+    vGlow = max(f, ff * 1.3);
 
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
-    gl_PointSize = uSize * (0.45 + aRand * 0.95) * (1.0 + f * 1.4) * uPixelRatio * (5.0 / -mv.z);
+    gl_PointSize = uSize * (0.45 + aRand * 0.95) * (1.0 + f * 1.4 + ff * 2.4) * uPixelRatio * (5.0 / -mv.z);
     vRand = aRand;
     vDepth = clamp((-mv.z - 4.0) / 6.0, 0.0, 1.0);
   }
@@ -113,18 +118,47 @@ const oneHot = (i: number) =>
 
 type PointerRef = React.RefObject<{ x: number; y: number; active: boolean; clicks: number }>
 
-function Particles({ pointer, onFormation }: { pointer: PointerRef; onFormation: (i: number) => void }) {
+/** DOM nodes of the floating callout, updated directly each frame (no React re-render). */
+type CalloutRefs = {
+  anchor: React.RefObject<HTMLDivElement | null>
+  label: React.RefObject<HTMLSpanElement | null>
+  detail: React.RefObject<HTMLSpanElement | null>
+}
+
+const CALLOUT_SECONDS = 3.4
+const CALLOUT_GAP_SECONDS = 1.2
+const FIRST_CALLOUT_AFTER = 2.5
+
+function Particles({
+  pointer,
+  onFormation,
+  callout,
+}: {
+  pointer: PointerRef
+  onFormation: (i: number) => void
+  callout: CalloutRefs
+}) {
   const { camera, gl, size } = useThree()
   const group = useRef<THREE.Group>(null)
   const shapes = useMemo(() => [sphere(), clusters(), wave(), knot()], [])
   const attrs = useMemo(() => particleAttributes(), [])
-  const state = useRef({ from: 0, to: 0, progress: 1, hold: 0, clicks: 0, strength: 0 })
+  const state = useRef({
+    from: 0,
+    to: 0,
+    progress: 1,
+    hold: 0,
+    clicks: 0,
+    strength: 0,
+    callout: { active: false, index: 0, shape: 0, t: 0, wait: FIRST_CALLOUT_AFTER, fact: 0 },
+  })
   const tmp = useMemo(
     () => ({
       ndc: new THREE.Vector2(),
       hit: new THREE.Vector3(),
       ray: new THREE.Raycaster(),
       inv: new THREE.Matrix4(),
+      focus: new THREE.Vector3(),
+      screen: new THREE.Vector3(),
     }),
     []
   )
@@ -145,6 +179,8 @@ function Particles({ pointer, onFormation }: { pointer: PointerRef; onFormation:
           uScroll: { value: 0 },
           uPointerStrength: { value: 0 },
           uPointer: { value: new THREE.Vector3(99, 99, 0) },
+          uFocus: { value: new THREE.Vector3(99, 99, 99) },
+          uFocusStrength: { value: 0 },
           uFrom: { value: oneHot(0) },
           uTo: { value: oneHot(0) },
           uColorA: { value: new THREE.Color('#6a45ff') },
@@ -217,13 +253,76 @@ function Particles({ pointer, onFormation }: { pointer: PointerRef; onFormation:
     // Pointer position in the group's own space, so the push follows the rotating shape.
     s.strength = THREE.MathUtils.lerp(s.strength, p.active ? 1 : 0, 0.08)
     u.uPointerStrength.value = s.strength
+    g.updateMatrixWorld()
     if (p.active) {
       tmp.ndc.set(p.x, p.y)
       tmp.ray.setFromCamera(tmp.ndc, camera)
       if (tmp.ray.ray.intersectPlane(plane, tmp.hit)) {
-        g.updateMatrixWorld()
         tmp.inv.copy(g.matrixWorld).invert()
         u.uPointer.value.copy(tmp.hit.applyMatrix4(tmp.inv))
+      }
+    }
+
+    // Callouts: while a shape holds still, a particle on its visible front flares and shows a short fact
+    // that follows it as the shape turns. Morphs cut the current callout short.
+    const c = s.callout
+    const scrollScale = 1 + u.uScroll.value * 0.55
+    const toScreen = (shape: Float32Array, i: number) => {
+      tmp.focus.set(shape[i * 3], shape[i * 3 + 1], shape[i * 3 + 2]).multiplyScalar(scrollScale)
+      tmp.screen.copy(tmp.focus).applyMatrix4(g.matrixWorld)
+      const front = tmp.screen.z
+      tmp.screen.project(camera)
+      return {
+        x: ((tmp.screen.x + 1) / 2) * size.width,
+        y: ((1 - tmp.screen.y) / 2) * size.height,
+        front,
+      }
+    }
+    const el = callout.anchor.current
+    if (c.active) {
+      c.t += dt
+      if (s.progress < 1) c.t = Math.max(c.t, CALLOUT_SECONDS - 0.35)
+      const pos = toScreen(shapes[c.shape], c.index)
+      u.uFocus.value.copy(tmp.focus)
+      const k = Math.max(0, Math.min(c.t / 0.35, (CALLOUT_SECONDS - c.t) / 0.4, 1))
+      u.uFocusStrength.value = k
+      if (el) {
+        el.style.transform = `translate3d(${pos.x.toFixed(1)}px, ${pos.y.toFixed(1)}px, 0)`
+        el.style.opacity = k.toFixed(3)
+        el.style.setProperty('--k', k.toFixed(3))
+        el.dataset.side = pos.x > size.width - 300 ? 'left' : 'right'
+      }
+      if (c.t >= CALLOUT_SECONDS) {
+        c.active = false
+        c.wait = CALLOUT_GAP_SECONDS
+        u.uFocusStrength.value = 0
+        if (el) el.style.opacity = '0'
+      }
+    } else {
+      c.wait -= dt
+      if (c.wait <= 0 && s.progress >= 1 && s.hold > 0.6) {
+        const shape = shapes[s.to]
+        const count = shape.length / 3
+        for (let attempt = 0; attempt < 30 && !c.active; attempt++) {
+          const i = Math.floor(Math.random() * count)
+          const pos = toScreen(shape, i)
+          const visible =
+            pos.front > 0.25 &&
+            pos.x > size.width * 0.6 &&
+            pos.x < size.width - 60 &&
+            pos.y > size.height * 0.16 &&
+            pos.y < size.height * 0.76
+          if (!visible) continue
+          c.active = true
+          c.index = i
+          c.shape = s.to
+          c.t = 0
+          const fact = particleCallouts[c.fact % particleCallouts.length]
+          c.fact++
+          if (callout.label.current) callout.label.current.textContent = fact.label
+          if (callout.detail.current) callout.detail.current.textContent = fact.detail
+        }
+        if (!c.active) c.wait = 0.4
       }
     }
   })
@@ -253,6 +352,10 @@ type Props = { active: boolean; onFormation: (index: number) => void }
 export default function MorphField({ active, onFormation }: Props) {
   const pointer = useRef({ x: 0, y: 0, active: false, clicks: 0 })
   const wrapper = useRef<HTMLDivElement>(null)
+  const anchor = useRef<HTMLDivElement>(null)
+  const label = useRef<HTMLSpanElement>(null)
+  const detail = useRef<HTMLSpanElement>(null)
+  const callout = useMemo(() => ({ anchor, label, detail }), [])
 
   useEffect(() => {
     const inside = (e: PointerEvent) => {
@@ -297,8 +400,41 @@ export default function MorphField({ active, onFormation }: Props) {
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         style={{ pointerEvents: 'none' }}
       >
-        <Particles pointer={pointer} onFormation={onFormation} />
+        <Particles pointer={pointer} onFormation={onFormation} callout={callout} />
       </Canvas>
+
+      {/* Callout that pops out of a particle: a pulsing ring on the particle, a thin leader line and a glass label.
+          Positioned every frame by the scene; decorative, as every fact also appears in the page content. */}
+      <div
+        ref={anchor}
+        aria-hidden
+        data-side="right"
+        className="group/callout pointer-events-none absolute top-0 left-0 opacity-0 will-change-transform"
+      >
+        <span className="absolute -top-2 -left-2 size-4 rounded-full border border-accent-2/80 motion-safe:animate-ping" />
+        <span className="absolute -top-1 -left-1 size-2 rounded-full bg-accent-2 shadow-[0_0_12px_var(--accent-2)]" />
+        <svg
+          width="34"
+          height="34"
+          viewBox="0 0 34 34"
+          className="absolute -top-[34px] left-0 overflow-visible group-data-[side=left]/callout:-left-[34px] group-data-[side=left]/callout:-scale-x-100"
+        >
+          <path
+            d="M0 34 L22 12 H34"
+            fill="none"
+            stroke="var(--accent-2)"
+            strokeWidth="1.2"
+            strokeOpacity="0.8"
+          />
+        </svg>
+        <span
+          className="absolute -top-[54px] left-[38px] flex origin-left flex-col rounded-2xl border border-border bg-surface-solid/90 px-3.5 py-2 whitespace-nowrap shadow-lift backdrop-blur-md group-data-[side=left]/callout:right-[38px] group-data-[side=left]/callout:left-auto group-data-[side=left]/callout:origin-right"
+          style={{ transform: 'scale(calc(0.86 + 0.14 * var(--k, 0)))' }}
+        >
+          <span ref={label} className="text-sm font-semibold text-text" />
+          <span ref={detail} className="text-xs text-muted" />
+        </span>
+      </div>
     </div>
   )
 }
