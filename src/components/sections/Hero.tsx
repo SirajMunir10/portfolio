@@ -1,4 +1,4 @@
-﻿import { ArrowRight, Download, Mail, MapPin, MousePointer2 } from 'lucide-react'
+﻿import { ArrowRight, Download, Mail, MapPin } from 'lucide-react'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons/BrandIcons'
 import { Magnetic } from '@/components/motion/Magnetic'
 import { HeroVisual } from '@/components/three/HeroVisual'
@@ -133,15 +133,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-
-      {/* Explains the 3D scene to curious visitors (desktop only, where it is interactive). */}
-      <p
-        className="animate-rise absolute right-8 bottom-8 hidden max-w-68 items-start gap-2 text-right font-mono text-[0.7rem] leading-relaxed text-subtle md:flex"
-        style={delay(1200)}
-      >
-        <MousePointer2 className="mt-0.5 size-3.5 shrink-0" aria-hidden />
-        Move your cursor: each dot is a document in a vector space, the lines link its nearest neighbours.
-      </p>
 
       <a
         href="#about"
