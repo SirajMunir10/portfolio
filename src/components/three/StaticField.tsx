@@ -1,24 +1,30 @@
-﻿import { buildCloud } from './cloud'
+﻿import { sphere } from './formations'
 
 /**
- * Server-rendered picture of the same embedding space (no JavaScript, no WebGL).
+ * Server-rendered picture of the particle sphere (no JavaScript, no WebGL).
  * Used on phones, with reduced motion, and while the 3D scene loads.
  */
-const cloud = buildCloud(520)
+const COUNT = 900
+const points = sphere(COUNT, 2.3, 1)
 const VIEW_W = 1000
 const VIEW_H = 640
+const TILT = 0.35
 
-const dots = Array.from({ length: 520 }, (_, i) => {
-  const x = cloud.positions[i * 3] + 2.2
-  const y = cloud.positions[i * 3 + 1]
-  const z = cloud.positions[i * 3 + 2]
-  const scale = 8 / (8 - z) // simple perspective
+const dots = Array.from({ length: COUNT }, (_, i) => {
+  const x = points[i * 3]
+  const y0 = points[i * 3 + 1]
+  const z0 = points[i * 3 + 2]
+  // Tilt the sphere toward the viewer, then a simple perspective projection.
+  const y = y0 * Math.cos(TILT) - z0 * Math.sin(TILT)
+  const z = y0 * Math.sin(TILT) + z0 * Math.cos(TILT)
+  const scale = 7.5 / (7.5 - z)
+  const front = (z + 2.3) / 4.6
   return {
-    cx: +(VIEW_W / 2 + x * 78 * scale).toFixed(1),
-    cy: +(VIEW_H / 2 - y * 78 * scale).toFixed(1),
-    r: +((1.1 + cloud.seeds[i] * 1.6) * scale).toFixed(2),
-    teal: cloud.clusters[i] > 0.5,
-    o: +(0.25 + 0.5 * (1 - (z + 2) / 5)).toFixed(2),
+    cx: +(VIEW_W * 0.7 + x * 92 * scale).toFixed(1),
+    cy: +(VIEW_H / 2 - y * 92 * scale).toFixed(1),
+    r: +((0.9 + front * 1.4) * scale).toFixed(2),
+    teal: i % 3 === 0,
+    o: +(0.12 + front * 0.6).toFixed(2),
   }
 })
 
