@@ -10,7 +10,7 @@ export function Skills({ site }: { site: Site }) {
     <section id="skills" aria-labelledby="skills-title" className="relative py-24 md:py-36">
       <div className="container-page">
         <SectionHeading
-          index="04"
+          index="01"
           id="skills-title"
           eyebrow={t.eyebrow}
           title={

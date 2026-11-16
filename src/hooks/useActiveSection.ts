@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 
 /**
  * Returns the id of the section currently in the reading zone (a band just below the header),
- * so navigation can highlight where the visitor is.
+ * so navigation can highlight where the visitor is. `key` (e.g. the pathname) re-scans the page
+ * after a client-side navigation, since the layout and its header stay mounted.
  */
-export function useActiveSection(ids: readonly string[]) {
+export function useActiveSection(ids: readonly string[], key?: string) {
   const [active, setActive] = useState<string | null>(null)
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export function useActiveSection(ids: readonly string[]) {
     )
     elements.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
-  }, [ids])
+  }, [ids, key])
 
   return active
 }

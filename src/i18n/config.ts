@@ -29,6 +29,12 @@ export const direction = (locale: Locale): 'ltr' | 'rtl' => (locale === 'ar' ? '
 /** Cookie that remembers a visitor's chosen language. */
 export const LOCALE_COOKIE = 'NEXT_LOCALE'
 
+/** Link inside one language: "/about" → "/de/about", "#contact" → "/de#contact", "" → "/de". */
+export const localeHref = (locale: Locale, href = '') => `/${locale}${href}`
+
+/** The part of a pathname after the language prefix: "/de/projects/xo" → "/projects/xo", "/de" → "". */
+export const pathWithoutLocale = (pathname: string) => pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '')
+
 /** Replaces {placeholders} in a dictionary string. */
 export function format(template: string, values: Record<string, string | number>) {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => String(values[key] ?? `{${key}}`))

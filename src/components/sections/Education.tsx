@@ -15,7 +15,7 @@ export function Education({ site }: { site: Site }) {
     <section id="education" aria-labelledby="education-title" className="relative py-24 md:py-36">
       <div className="container-page">
         <SectionHeading
-          index="06"
+          index="03"
           id="education-title"
           eyebrow={t.eyebrow}
           title={

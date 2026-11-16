@@ -5,7 +5,7 @@ import type { Site } from '@/content'
 /** Four proof points right under the hero, in one glass panel. Numbers count up the first time they are seen. */
 export function Highlights({ site }: { site: Site }) {
   return (
-    <section aria-label={site.dict.highlights.label} className="container-page pb-8">
+    <section aria-label={site.dict.highlights.label} className="container-page pb-8 md:pb-16">
       <Stagger className="glass grid grid-cols-2 overflow-hidden rounded-3xl border border-border md:grid-cols-4">
         {site.highlights.map((h, i) => (
           <StaggerItem

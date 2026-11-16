@@ -1,5 +1,6 @@
+import type { Metadata } from 'next'
 import type { Site } from '@/content'
-import { locales } from '@/i18n/config'
+import { locales, ogLocale, type Locale } from '@/i18n/config'
 
 /**
  * Public address of the site: NEXT_PUBLIC_SITE_URL when set (e.g. a custom domain),
@@ -29,11 +30,28 @@ export const keywords = [
   'Next.js',
 ]
 
-/** hreflang alternates for every language, with English as the default. */
-export function languageAlternates() {
+/** hreflang alternates of one page (e.g. "/about") in every language, with English as the default. */
+export function languageAlternates(path = '') {
   return {
-    ...Object.fromEntries(locales.map((l) => [l, `/${l}`])),
-    'x-default': '/en',
+    ...Object.fromEntries(locales.map((l) => [l, `/${l}${path}`])),
+    'x-default': `/en${path}`,
+  }
+}
+
+/** Metadata for an inner page: its own title, description, canonical URL and language versions. */
+export function pageMetadata(locale: Locale, path: string, title: string, description: string): Metadata {
+  return {
+    title,
+    description,
+    alternates: { canonical: `/${locale}${path}`, languages: languageAlternates(path) },
+    openGraph: {
+      type: 'website',
+      url: `/${locale}${path}`,
+      title,
+      description,
+      locale: ogLocale[locale],
+    },
+    twitter: { card: 'summary_large_image', title, description },
   }
 }
 

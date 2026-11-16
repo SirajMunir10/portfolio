@@ -2,10 +2,11 @@
 
 import { ArrowRight, Download, FileText, Sparkles, X } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import Link from 'next/link'
 import { useEffect, type ReactNode } from 'react'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons/BrandIcons'
 import { useScrollNudges, type NudgeId } from '@/hooks/useScrollNudges'
-import { format } from '@/i18n/config'
+import { format, localeHref } from '@/i18n/config'
 import { useI18n } from '@/i18n/I18nProvider'
 
 const AUTO_HIDE_MS = 12_000
@@ -15,7 +16,7 @@ const primary = `${action} bg-accent text-accent-contrast hover:bg-accent-hover`
 const secondary = `${action} border border-border text-text hover:bg-surface-2`
 
 function Content({ id, onClose }: { id: NudgeId; onClose: () => void }): ReactNode {
-  const { dict, profile } = useI18n()
+  const { dict, profile, locale } = useI18n()
   const t = dict.nudges
 
   if (id === 'after-projects') {
@@ -52,13 +53,13 @@ function Content({ id, onClose }: { id: NudgeId; onClose: () => void }): ReactNo
       <p className="font-semibold text-text">{profile.availability}</p>
       <p className="mt-1 text-sm text-muted">{format(t.talkBody, { location: profile.location })}</p>
       <div className="mt-4">
-        <a href="#contact" onClick={onClose} className={`${primary} group`}>
+        <Link href={localeHref(locale, '#contact')} onClick={onClose} className={`${primary} group`}>
           {dict.common.letsTalk}
           <ArrowRight
             className="size-4 transition-transform group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5"
             aria-hidden
           />
-        </a>
+        </Link>
       </div>
     </>
   )

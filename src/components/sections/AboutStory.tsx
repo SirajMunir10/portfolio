@@ -1,36 +1,17 @@
 import { Brain, Languages, MapPin, Mic, Search, Sparkles } from 'lucide-react'
-import { CinematicPortrait } from '@/components/about/CinematicPortrait'
 import { Reveal, Stagger, StaggerItem } from '@/components/motion/Reveal'
 import { Card } from '@/components/ui/Card'
-import { Em } from '@/components/ui/Em'
-import { SectionHeading } from '@/components/ui/SectionHeading'
 import type { Site } from '@/content'
 
 const focusIcons = [Sparkles, Search, Mic, Brain]
 
-export function About({ site }: { site: Site }) {
+/** About page: the full story, what I focus on, where I am and the languages I speak. */
+export function AboutStory({ site }: { site: Site }) {
   const { profile, spokenLanguages, dict } = site
   const t = dict.about
   return (
-    <section id="about" aria-labelledby="about-title" className="container-page py-24 md:py-36">
-      <SectionHeading
-        index="01"
-        id="about-title"
-        eyebrow={t.eyebrow}
-        title={
-          <>
-            {t.titleBefore}
-            <Em>{t.titleEm}</Em>
-            {t.titleAfter}
-          </>
-        }
-      />
-
-      <Reveal y={40}>
-        <CinematicPortrait />
-      </Reveal>
-
-      <div className="mt-16 grid gap-12 lg:mt-20 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+    <section id="story" aria-label={t.eyebrow} className="container-page pt-16 pb-24 md:pt-20 md:pb-32">
+      <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
         <Reveal className="space-y-6 text-lg leading-relaxed text-muted md:text-xl md:leading-relaxed">
           {profile.about.map((paragraph, i) => (
             <p key={paragraph.slice(0, 24)} className={i === 0 ? 'text-text' : undefined}>
@@ -40,7 +21,7 @@ export function About({ site }: { site: Site }) {
         </Reveal>
 
         <div className="space-y-4">
-          <h3 className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">{t.workOn}</h3>
+          <h2 className="font-mono text-xs tracking-[0.2em] text-subtle uppercase">{t.workOn}</h2>
           <Stagger className="grid gap-3 sm:grid-cols-2">
             {profile.focusAreas.map((area, i) => {
               const Icon = focusIcons[i % focusIcons.length]
@@ -50,7 +31,7 @@ export function About({ site }: { site: Site }) {
                     <span className="grid size-9 place-items-center rounded-xl bg-accent-soft text-accent">
                       <Icon className="size-4.5" aria-hidden />
                     </span>
-                    <h4 className="mt-4 font-semibold text-text">{area.title}</h4>
+                    <h3 className="mt-4 font-semibold text-text">{area.title}</h3>
                     <p className="mt-1.5 text-sm leading-relaxed text-muted">{area.description}</p>
                   </Card>
                 </StaggerItem>

@@ -20,7 +20,7 @@ export function Contact({ site }: { site: Site }) {
       <div className="container-page">
         <SectionHeading
           id="contact-title"
-          index="07"
+          index="05"
           eyebrow={t.eyebrow}
           title={
             <>
