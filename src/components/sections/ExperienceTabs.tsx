@@ -70,7 +70,7 @@ export function ExperienceTabs({ items }: { items: Experience[] }) {
               {selected ? (
                 <motion.span
                   layoutId={`${baseId}-active`}
-                  className="absolute inset-0 rounded-xl border border-border bg-surface shadow-card"
+                  className="glass absolute inset-0 rounded-xl border border-border"
                   transition={{ type: 'spring', stiffness: 380, damping: 34 }}
                 />
               ) : null}

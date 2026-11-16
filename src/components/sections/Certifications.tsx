@@ -1,5 +1,6 @@
 import { CertificateCard } from '@/components/certifications/CertificateCard'
 import { Stagger, StaggerItem } from '@/components/motion/Reveal'
+import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { certifications } from '@/content/certifications'
 
@@ -14,9 +15,14 @@ export function Certifications() {
       className="container-page py-24 md:py-32"
     >
       <SectionHeading
+        index="05"
         id="certifications-title"
         eyebrow="Certifications"
-        title="Verified learning"
+        title={
+          <>
+            Verified <Em>learning</Em>
+          </>
+        }
         description="Open any certificate to see it in full, download the original or check it with the issuer."
       />
       <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

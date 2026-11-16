@@ -16,7 +16,7 @@ export function CertificateCard({ cert }: { cert: Certification }) {
   const close = useCallback(() => setOpen(false), [])
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-card transition-[transform,box-shadow] duration-300 ease-out-expo hover:-translate-y-1 hover:shadow-lift">
+    <article className="group glass flex h-full flex-col overflow-hidden rounded-3xl border border-border transition-[transform,border-color] duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/30">
       {cert.image ? (
         <button
           type="button"
@@ -32,7 +32,7 @@ export function CertificateCard({ cert }: { cert: Certification }) {
             className="object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.05]"
           />
           <span className="absolute inset-0 grid place-items-center bg-black/0 transition-colors duration-300 group-hover:bg-black/35">
-            <span className="flex translate-y-2 items-center gap-2 rounded-full bg-surface px-4 py-2 text-sm font-medium text-text opacity-0 shadow-lift transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+            <span className="flex translate-y-2 items-center gap-2 rounded-full bg-surface-solid px-4 py-2 text-sm font-medium text-text opacity-0 shadow-lift transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
               <Expand className="size-4" aria-hidden /> View certificate
             </span>
           </span>

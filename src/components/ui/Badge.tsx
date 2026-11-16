@@ -9,6 +9,7 @@ const tones: Record<Tone, string> = {
   teal: 'border-accent-2/25 bg-accent-2-soft text-accent-2',
 }
 
+/** Small, quiet tag for technologies and skills. */
 export function Badge({
   children,
   tone = 'neutral',
@@ -21,7 +22,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[0.72rem] leading-5 tracking-tight',
+        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs leading-5',
         tones[tone],
         className
       )}

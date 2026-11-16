@@ -20,7 +20,7 @@ export default async function OpengraphImage() {
         height: '100%',
         display: 'flex',
         position: 'relative',
-        background: '#0a0a0b',
+        background: '#08070c',
         color: '#f4f4f5',
         fontFamily: 'sans-serif',
       }}
@@ -35,7 +35,7 @@ export default async function OpengraphImage() {
             width: d.s,
             height: d.s,
             borderRadius: 999,
-            background: d.teal ? '#2dd4bf' : '#818cf8',
+            background: d.teal ? '#ff7d5c' : '#a08bff',
             opacity: 0.75,
           }}
         />
@@ -61,7 +61,7 @@ export default async function OpengraphImage() {
           <div style={{ fontSize: 24, color: '#a1a1aa' }}>{profile.location}</div>
         </div>
         <div style={{ fontSize: 84, fontWeight: 700, marginTop: 56, letterSpacing: -2 }}>{profile.name}</div>
-        <div style={{ fontSize: 34, color: '#818cf8', marginTop: 8 }}>{profile.role}</div>
+        <div style={{ fontSize: 34, color: '#a08bff', marginTop: 8 }}>{profile.role}</div>
         <div style={{ fontSize: 30, lineHeight: 1.35, marginTop: 36, color: '#d4d4d8' }}>
           {profile.headline}
         </div>

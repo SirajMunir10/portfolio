@@ -3,6 +3,7 @@ import { AwardCertificate } from '@/components/education/AwardCertificate'
 import { PublicationCard } from '@/components/education/PublicationCard'
 import { Timeline, TimelineItem } from '@/components/education/Timeline'
 import { Reveal } from '@/components/motion/Reveal'
+import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { awards, education } from '@/content/education'
 import { research } from '@/content/research'
@@ -11,16 +12,17 @@ export function Education() {
   const [degree, ...earlier] = education
 
   return (
-    <section id="education" aria-labelledby="education-title" className="relative py-24 md:py-32">
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-surface-2/50 mask-[linear-gradient(transparent,black_15%,black_85%,transparent)]"
-      />
+    <section id="education" aria-labelledby="education-title" className="relative py-24 md:py-36">
       <div className="container-page">
         <SectionHeading
+          index="06"
           id="education-title"
           eyebrow="Education"
-          title="Education, research and awards"
+          title={
+            <>
+              Education, research <Em>&amp; awards</Em>
+            </>
+          }
           description="A software engineering degree with consistent top results, and published research on making ICU monitoring more trustworthy."
         />
 

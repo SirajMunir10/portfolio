@@ -16,7 +16,7 @@ export function PublicationCard({ research }: { research: Research }) {
   const closePaper = useCallback(() => setPaperOpen(false), [])
 
   return (
-    <article className="rounded-3xl border border-border bg-surface p-6 shadow-card md:p-8">
+    <article className="glass rounded-3xl border border-border p-6 md:p-8">
       <p className="font-mono text-xs tracking-[0.18em] text-accent uppercase">Research paper</p>
       <h3 className="mt-3 text-xl leading-snug font-semibold text-text md:text-2xl">{research.title}</h3>
       <p className="mt-3 text-sm text-muted">

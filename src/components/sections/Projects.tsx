@@ -4,6 +4,7 @@ import { Stagger, StaggerItem } from '@/components/motion/Reveal'
 import { FeaturedProject } from '@/components/projects/FeaturedProject'
 import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
+import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { featuredProjects, otherProjects } from '@/content/projects'
 
@@ -11,9 +12,14 @@ export function Projects() {
   return (
     <section id="projects" aria-labelledby="projects-title" className="container-page py-24 md:py-32">
       <SectionHeading
+        index="03"
         id="projects-title"
         eyebrow="Projects"
-        title="Things I've built"
+        title={
+          <>
+            Things I&apos;ve <Em>built</Em>
+          </>
+        }
         description="Production AI, security tooling, research and client work. Open any project for the full story, screenshots and results."
       />
 

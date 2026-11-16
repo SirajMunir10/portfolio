@@ -38,17 +38,21 @@ export function Header() {
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         className="fixed inset-x-0 top-0 z-50"
       >
+        {/* At the top the header is open and transparent; once scrolling, it becomes a floating glass pill. */}
         <div
           className={cn(
-            'transition-[background-color,border-color,backdrop-filter] duration-300',
+            'mx-auto max-w-6xl border transition-[margin,width,border-radius,background-color,border-color,box-shadow] duration-500 ease-out-expo',
             scrolled
-              ? 'border-b border-border bg-bg/75 backdrop-blur-xl backdrop-saturate-150'
-              : 'border-b border-transparent'
+              ? 'glass mt-3 w-[calc(100%-1.5rem)] rounded-full border-border md:mt-4'
+              : 'w-full border-transparent'
           )}
         >
           <nav
             aria-label="Main"
-            className="container-page flex h-16 items-center justify-between gap-4 md:h-18"
+            className={cn(
+              'flex items-center justify-between gap-4 transition-[height,padding] duration-500',
+              scrolled ? 'h-14 px-2 md:px-3' : 'container-page h-16 md:h-18'
+            )}
           >
             <a
               href="#top"
@@ -58,7 +62,7 @@ export function Header() {
               <Logo />
               <span className="hidden flex-col leading-tight sm:flex">
                 <span className="text-sm font-semibold text-text">{profile.name}</span>
-                <span className="font-mono text-[0.7rem] text-subtle">{profile.role}</span>
+                <span className="font-mono text-[0.7rem] whitespace-nowrap text-subtle">{profile.role}</span>
               </span>
             </a>
 
@@ -103,7 +107,7 @@ export function Header() {
                 aria-label="Open menu"
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu"
-                className="grid size-10 place-items-center rounded-full border border-border bg-surface text-text xl:hidden"
+                className="glass grid size-10 place-items-center rounded-full border border-border text-text xl:hidden"
               >
                 <Menu className="size-4.5" aria-hidden />
               </button>

@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react'
 import { cn } from '@/lib/utils'
 
-/** Surface with a hairline border and soft shadow. `interactive` adds the hover lift. */
+/** Frosted glass surface. `interactive` adds a gentle lift and a brighter edge on hover. */
 export function Card({
   className,
   interactive = false,
@@ -10,9 +10,9 @@ export function Card({
   return (
     <div
       className={cn(
-        'rounded-2xl border border-border bg-surface shadow-card',
+        'glass rounded-3xl border border-border',
         interactive &&
-          'transition-[transform,box-shadow,border-color] duration-300 ease-out-expo hover:-translate-y-1 hover:border-border-strong hover:shadow-lift',
+          'transition-[transform,border-color] duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/30',
         className
       )}
       {...rest}

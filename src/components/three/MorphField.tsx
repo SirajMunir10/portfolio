@@ -147,8 +147,8 @@ function Particles({ pointer, onFormation }: { pointer: PointerRef; onFormation:
           uPointer: { value: new THREE.Vector3(99, 99, 0) },
           uFrom: { value: oneHot(0) },
           uTo: { value: oneHot(0) },
-          uColorA: { value: new THREE.Color('#4f46e5') },
-          uColorB: { value: new THREE.Color('#0d9488') },
+          uColorA: { value: new THREE.Color('#6a45ff') },
+          uColorB: { value: new THREE.Color('#ff7d5c') },
           uOpacity: { value: 0.9 },
         },
       }),
@@ -160,8 +160,8 @@ function Particles({ pointer, onFormation }: { pointer: PointerRef; onFormation:
     const apply = () => {
       const css = getComputedStyle(document.documentElement)
       const dark = document.documentElement.getAttribute('data-theme') === 'dark'
-      material.uniforms.uColorA.value.set(css.getPropertyValue('--accent').trim() || '#4f46e5')
-      material.uniforms.uColorB.value.set(css.getPropertyValue('--accent-2').trim() || '#0d9488')
+      material.uniforms.uColorA.value.set(css.getPropertyValue('--accent').trim() || '#6a45ff')
+      material.uniforms.uColorB.value.set(css.getPropertyValue('--accent-2').trim() || '#ff7d5c')
       // Additive light needs less opacity on dark; on light, particles need more to stay vivid.
       material.uniforms.uOpacity.value = dark ? 0.95 : 1.6
       material.uniforms.uSize.value = dark ? 7.5 : 6.5
