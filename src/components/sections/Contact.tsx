@@ -5,25 +5,31 @@ import { GitHubIcon, LinkedInIcon } from '@/components/icons/BrandIcons'
 import { Reveal } from '@/components/motion/Reveal'
 import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { profile } from '@/content/profile'
+import type { Site } from '@/content'
+import { format } from '@/i18n/config'
 
 const row = 'flex items-center gap-3 glass rounded-2xl border border-border p-4'
 const iconBox = 'grid size-10 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent'
 
-export function Contact() {
+export function Contact({ site }: { site: Site }) {
+  const { profile } = site
+  const t = site.dict.contact
+  const c = site.dict.common
   return (
     <section id="contact" aria-labelledby="contact-title" className="relative py-24 md:py-36">
       <div className="container-page">
         <SectionHeading
           id="contact-title"
           index="07"
-          eyebrow="Contact"
+          eyebrow={t.eyebrow}
           title={
             <>
-              Let&apos;s build something <Em>people use.</Em>
+              {t.titleBefore}
+              <Em>{t.titleEm}</Em>
+              {t.titleAfter}
             </>
           }
-          description="Hiring for an AI engineering role, planning an AI product or just curious about my work? Send a message and I'll get back to you."
+          description={t.description}
         />
 
         <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-14">
@@ -33,10 +39,11 @@ export function Contact() {
                 <Mail className="size-4.5" aria-hidden />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-xs text-subtle">Email</p>
+                <p className="text-xs text-subtle">{c.email}</p>
                 <a
                   href={`mailto:${profile.email}`}
-                  className="block truncate font-medium text-text hover:text-accent"
+                  dir="ltr"
+                  className="block truncate text-start font-medium text-text hover:text-accent"
                 >
                   {profile.email}
                 </a>
@@ -53,8 +60,10 @@ export function Contact() {
                 <LinkedInIcon className="size-4.5" />
               </span>
               <div>
-                <p className="text-xs text-subtle">LinkedIn</p>
-                <p className="font-medium text-text group-hover:text-accent">in/siraj-munir-10furc</p>
+                <p className="text-xs text-subtle">{c.linkedin}</p>
+                <p dir="ltr" className="font-medium text-text group-hover:text-accent">
+                  in/siraj-munir-10furc
+                </p>
               </div>
             </a>
             <a
@@ -67,8 +76,10 @@ export function Contact() {
                 <GitHubIcon className="size-4.5" />
               </span>
               <div>
-                <p className="text-xs text-subtle">GitHub</p>
-                <p className="font-medium text-text group-hover:text-accent">SirajMunir10</p>
+                <p className="text-xs text-subtle">{c.github}</p>
+                <p dir="ltr" className="font-medium text-text group-hover:text-accent">
+                  SirajMunir10
+                </p>
               </div>
             </a>
             <div className={row}>
@@ -76,13 +87,13 @@ export function Contact() {
                 <MapPin className="size-4.5" aria-hidden />
               </span>
               <div>
-                <p className="text-xs text-subtle">Based in</p>
+                <p className="text-xs text-subtle">{t.basedIn}</p>
                 <p className="font-medium text-text">{profile.location}</p>
               </div>
             </div>
             <p className="flex items-center gap-2 px-1 pt-2 text-sm text-muted">
-              <Clock className="size-4 text-accent-2" aria-hidden />
-              {profile.availability}. I usually reply within one or two working days.
+              <Clock className="size-4 shrink-0 text-accent-2" aria-hidden />
+              {format(t.replyTime, { availability: profile.availability })}
             </p>
           </Reveal>
 

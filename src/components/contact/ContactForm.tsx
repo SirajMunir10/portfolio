@@ -3,13 +3,14 @@
 import { AlertCircle, CheckCircle2, Loader2, Send } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useId, useState } from 'react'
-import { profile } from '@/content/profile'
+import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
 import {
   contactReasons,
   contactSchema,
   fieldErrors,
   MESSAGE_MAX,
+  type ContactErrorCode,
   type ContactField,
 } from '@/lib/validation/contact'
 
@@ -23,8 +24,10 @@ const inputClass =
 
 export function ContactForm() {
   const id = useId()
+  const { dict, locale, profile } = useI18n()
+  const t = dict.contact.form
   const [values, setValues] = useState<Values>(empty)
-  const [errors, setErrors] = useState<Partial<Record<ContactField, string>>>({})
+  const [errors, setErrors] = useState<Partial<Record<ContactField, ContactErrorCode>>>({})
   const [touched, setTouched] = useState<Partial<Record<ContactField, boolean>>>({})
   const [status, setStatus] = useState<Status>('idle')
   const [serverMessage, setServerMessage] = useState('')
@@ -63,7 +66,7 @@ export function ContactForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...values, startedAt: startedAt ?? Date.now() }),
+        body: JSON.stringify({ ...values, startedAt: startedAt ?? Date.now(), locale }),
       })
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean
@@ -79,16 +82,16 @@ export function ContactForm() {
       if (data.fields) setErrors(data.fields)
       setServerMessage(
         data.error === 'rate_limited'
-          ? 'You have sent several messages in a short time. Please try again in a few minutes.'
+          ? t.errors.rateLimited
           : data.error === 'not_configured'
-            ? 'The form is not connected to email yet.'
+            ? t.errors.notConfigured
             : data.error === 'invalid'
-              ? 'Please check the highlighted fields.'
-              : 'Something went wrong while sending.'
+              ? t.errors.invalid
+              : t.errors.failed
       )
       setStatus('error')
     } catch {
-      setServerMessage('Your connection seems to be offline.')
+      setServerMessage(t.errors.offline)
       setStatus('error')
     }
   }
@@ -107,7 +110,7 @@ export function ContactForm() {
         id={`${id}-${name}-error`}
         className="mt-1.5 flex items-center gap-1.5 text-sm text-red-600 dark:text-red-400"
       >
-        <AlertCircle className="size-3.5 shrink-0" aria-hidden /> {errors[name]}
+        <AlertCircle className="size-3.5 shrink-0" aria-hidden /> {t.errors[errors[name]]}
       </p>
     ) : null
 
@@ -134,10 +137,8 @@ export function ContactForm() {
             >
               <CheckCircle2 className="size-8" aria-hidden />
             </motion.span>
-            <h3 className="mt-5 text-xl font-semibold text-text">Message sent. Thank you!</h3>
-            <p className="mt-2 max-w-sm text-muted">
-              I read every message myself and usually reply within one or two working days.
-            </p>
+            <h3 className="mt-5 text-xl font-semibold text-text">{t.sentTitle}</h3>
+            <p className="mt-2 max-w-sm text-muted">{t.sentBody}</p>
             <button
               type="button"
               onClick={() => {
@@ -146,7 +147,7 @@ export function ContactForm() {
               }}
               className="mt-6 text-sm font-medium text-accent hover:underline"
             >
-              Send another message
+              {t.sendAnother}
             </button>
           </motion.div>
         ) : (
@@ -162,7 +163,7 @@ export function ContactForm() {
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
                 <label htmlFor={`${id}-name`} className="mb-1.5 block text-sm font-medium text-text">
-                  Your name
+                  {t.name}
                 </label>
                 <input
                   {...field('name')}
@@ -171,13 +172,13 @@ export function ContactForm() {
                   value={values.name}
                   onChange={(e) => update('name', e.target.value)}
                   className={cn(inputClass, borderFor('name'))}
-                  placeholder="Jane Doe"
+                  placeholder={t.namePlaceholder}
                 />
                 {errorText('name')}
               </div>
               <div>
                 <label htmlFor={`${id}-email`} className="mb-1.5 block text-sm font-medium text-text">
-                  Email
+                  {t.email}
                 </label>
                 <input
                   {...field('email')}
@@ -187,14 +188,14 @@ export function ContactForm() {
                   value={values.email}
                   onChange={(e) => update('email', e.target.value)}
                   className={cn(inputClass, borderFor('email'))}
-                  placeholder="jane@company.com"
+                  placeholder={t.emailPlaceholder}
                 />
                 {errorText('email')}
               </div>
             </div>
 
             <fieldset>
-              <legend className="mb-2 text-sm font-medium text-text">What is this about?</legend>
+              <legend className="mb-2 text-sm font-medium text-text">{t.reason}</legend>
               <div
                 className="flex flex-wrap gap-2"
                 role="radiogroup"
@@ -224,7 +225,7 @@ export function ContactForm() {
                         }}
                         className="sr-only"
                       />
-                      {r}
+                      {t.reasons[r]}
                     </label>
                   )
                 })}
@@ -235,7 +236,7 @@ export function ContactForm() {
             <div>
               <div className="mb-1.5 flex items-baseline justify-between">
                 <label htmlFor={`${id}-message`} className="text-sm font-medium text-text">
-                  Message
+                  {t.message}
                 </label>
                 <span
                   className={cn(
@@ -253,14 +254,14 @@ export function ContactForm() {
                 value={values.message}
                 onChange={(e) => update('message', e.target.value)}
                 className={cn(inputClass, 'resize-y', borderFor('message'))}
-                placeholder="A few lines about the role, project or idea."
+                placeholder={t.messagePlaceholder}
               />
               {errorText('message')}
             </div>
 
             {/* Honeypot: hidden from people and screen readers; bots tend to fill it in. */}
-            <div aria-hidden className="absolute left-[-9999px] h-px w-px overflow-hidden">
-              <label htmlFor={`${id}-company`}>Company</label>
+            <div aria-hidden className="absolute -start-[9999px] h-px w-px overflow-hidden">
+              <label htmlFor={`${id}-company`}>{t.honeypot}</label>
               <input
                 id={`${id}-company`}
                 type="text"
@@ -283,8 +284,8 @@ export function ContactForm() {
                   <p className="flex gap-2 rounded-xl border border-red-500/30 bg-red-500/5 px-4 py-3 text-sm text-red-700 dark:text-red-300">
                     <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
                     <span>
-                      {serverMessage} You can also email me directly at{' '}
-                      <a href={`mailto:${profile.email}`} className="font-medium underline">
+                      {serverMessage} {t.emailDirectly}{' '}
+                      <a href={`mailto:${profile.email}`} dir="ltr" className="font-medium underline">
                         {profile.email}
                       </a>
                       .
@@ -295,7 +296,7 @@ export function ContactForm() {
             </AnimatePresence>
 
             <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
-              <p className="text-xs text-subtle">Your details are only used to reply to you.</p>
+              <p className="text-xs text-subtle">{t.privacy}</p>
               <button
                 type="submit"
                 disabled={status === 'sending'}
@@ -303,13 +304,13 @@ export function ContactForm() {
               >
                 {status === 'sending' ? (
                   <>
-                    <Loader2 className="size-4 animate-spin" aria-hidden /> Sending…
+                    <Loader2 className="size-4 animate-spin" aria-hidden /> {t.sending}
                   </>
                 ) : (
                   <>
-                    Send message
+                    {t.send}
                     <Send
-                      className="size-4 transition-transform group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5"
+                      className="size-4 transition-transform group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5 rtl:-scale-x-100 rtl:group-hover/button:-translate-x-0.5"
                       aria-hidden
                     />
                   </>

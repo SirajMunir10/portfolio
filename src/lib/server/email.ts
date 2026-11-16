@@ -1,5 +1,6 @@
 import type { z } from 'zod'
-import type { contactSchema } from '@/lib/validation/contact'
+import { localeNames } from '@/i18n/config'
+import { reasonLabels, type contactSchema } from '@/lib/validation/contact'
 
 type Message = z.output<typeof contactSchema>
 
@@ -18,18 +19,21 @@ export async function sendContactEmail(message: Message): Promise<SendResult> {
   const from = process.env.CONTACT_FROM_EMAIL || 'Portfolio <onboarding@resend.dev>'
   if (!apiKey || !to) return { ok: false, reason: 'not_configured' }
 
-  const subject = `Portfolio: ${message.reason} from ${message.name}`
+  const about = reasonLabels[message.reason]
+  const language = message.locale ? localeNames[message.locale] : null
+  const subject = `Portfolio: ${about} from ${message.name}`
   const text = [
     `Name: ${message.name}`,
     `Email: ${message.email}`,
-    `About: ${message.reason}`,
+    `About: ${about}`,
+    ...(language ? [`Site language: ${language}`] : []),
     '',
     message.message,
   ].join('\n')
   const html = `
     <div style="font-family:system-ui,sans-serif;line-height:1.6;color:#111">
       <p style="margin:0 0 4px"><strong>${escapeHtml(message.name)}</strong> &lt;${escapeHtml(message.email)}&gt;</p>
-      <p style="margin:0 0 16px;color:#555">${escapeHtml(message.reason)}</p>
+      <p style="margin:0 0 16px;color:#555">${escapeHtml(about)}${language ? ` · ${escapeHtml(language)}` : ''}</p>
       <p style="white-space:pre-wrap;margin:0">${escapeHtml(message.message)}</p>
     </div>`
 
