@@ -8,7 +8,7 @@ export function Experience() {
     <section id="experience" aria-labelledby="experience-title" className="relative py-24 md:py-32">
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-surface-2/50 [mask-image:linear-gradient(transparent,black_15%,black_85%,transparent)]"
+        className="absolute inset-0 -z-10 bg-surface-2/50 mask-[linear-gradient(transparent,black_15%,black_85%,transparent)]"
       />
       <div className="container-page">
         <SectionHeading

@@ -1,14 +1,14 @@
 import { About } from '@/components/sections/About'
 import { Certifications } from '@/components/sections/Certifications'
+import { Contact } from '@/components/sections/Contact'
 import { Education } from '@/components/sections/Education'
 import { Experience } from '@/components/sections/Experience'
 import { Hero } from '@/components/sections/Hero'
 import { Highlights } from '@/components/sections/Highlights'
 import { Projects } from '@/components/sections/Projects'
 import { Skills } from '@/components/sections/Skills'
-import { SectionHeading } from '@/components/ui/SectionHeading'
 
-/** One-page portfolio. The contact placeholder is replaced by its own branch. */
+/** The whole portfolio on one page, in reading order. */
 export default function HomePage() {
   return (
     <>
@@ -20,10 +20,7 @@ export default function HomePage() {
       <Skills />
       <Certifications />
       <Education />
-      <section id="contact" aria-labelledby="contact-title" className="container-page py-28">
-        <SectionHeading id="contact-title" eyebrow="Contact" title="Contact" description="Coming next." />
-        <div className="h-64 rounded-2xl border border-dashed border-border" />
-      </section>
+      <Contact />
     </>
   )
 }
