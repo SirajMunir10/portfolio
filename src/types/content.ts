@@ -7,6 +7,8 @@ export type Profile = {
   fullName: string
   role: string
   headline: string
+  /** Part of the headline drawn with the accent gradient. Must appear in `headline`. */
+  headlineHighlight: string
   intro: string
   about: string[]
   location: string
