@@ -1,6 +1,6 @@
 import type { Project } from '@/types/content'
 
-/** Featured projects follow the order pinned on GitHub. Images are added with the Projects section. */
+/** Featured projects follow the order pinned on GitHub. The first image is the cover. */
 export const projects: Project[] = [
   {
     slug: 'xo',
@@ -43,7 +43,50 @@ export const projects: Project[] = [
       github: 'https://github.com/SirajMunir10/XO-uae-realestate-mortage-conversational-assistant',
       live: 'https://xoto-blitz.vercel.app',
     },
-    images: [],
+    images: [
+      {
+        src: '/images/projects/xo/home-desktop.jpg',
+        alt: 'XO landing page with the chat widget open',
+        width: 1366,
+        height: 768,
+      },
+      {
+        src: '/images/projects/xo/chat-properties-desktop.jpg',
+        alt: 'XO showing live off-plan and ready property results in the chat',
+        width: 1366,
+        height: 768,
+      },
+      {
+        src: '/images/projects/xo/mortgage-card-desktop.jpg',
+        alt: 'XO mortgage eligibility card with the tightest lending limit explained',
+        width: 1366,
+        height: 768,
+      },
+      {
+        src: '/images/projects/xo/voice-mode-desktop.jpg',
+        alt: 'XO in voice mode while it speaks a reply',
+        width: 1366,
+        height: 768,
+      },
+      {
+        src: '/images/projects/xo/arabic-rtl-mobile.jpg',
+        alt: 'XO on a phone in Arabic with a right-to-left layout',
+        width: 540,
+        height: 1170,
+      },
+      {
+        src: '/images/projects/xo/advisor-callback-mobile.jpg',
+        alt: 'XO advisor callback card asking the visitor to confirm their details',
+        width: 540,
+        height: 1170,
+      },
+      {
+        src: '/images/projects/xo/admin-signin-desktop.jpg',
+        alt: 'XO admin back-office sign-in page',
+        width: 1366,
+        height: 768,
+      },
+    ],
   },
   {
     slug: 'avaguard',
@@ -54,26 +97,58 @@ export const projects: Project[] = [
     team: 'Team final-year project, built for Agency VA',
     featured: true,
     summary:
-      'Automates security assessments of Azure and Microsoft 365 tenants against CIS benchmarks, then explains every failed control with tailored, AI-generated remediation guidance.',
+      'Connects to a Microsoft Entra ID tenant without installing agents, runs CIS benchmark checks, scores the risk and explains every failed control with tailored, AI-generated remediation guidance.',
     problem:
       'Manual Azure AD compliance audits were slow and inconsistent. Security teams had to check each control by hand and then interpret long benchmark documents to work out what to fix.',
     built: [
-      'An automated assessment pipeline that checks tenant settings against the CIS control framework.',
+      'An agentless assessment pipeline that signs in to Microsoft Entra ID through MSAL and runs 10 CIS benchmark checks concurrently.',
+      'Severity-weighted risk scoring (critical 10×, high 7×, medium 4×, low 1×) and mapping of results to NIST 800-53 and ISO 27001.',
       'A RAG engine trained on CIS documentation that maps each failed control to context-aware remediation steps.',
-      'Severity-based reports and a dashboard that help teams prioritise the riskiest gaps first.',
-      'Three ways to use it: a command-line scanner, a PyQt6 desktop app and a Django web portal with role-based access.',
+      'Audit-ready reports in HTML, PDF, CSV and JSON, scan comparison, and role-based dashboards.',
+      'Three ways to use it: a command-line scanner, a PyQt6 desktop app and a Django web portal with MFA and hash-chained audit logs.',
     ],
     results: [
-      { value: 'CIS', label: 'benchmark controls checked automatically' },
-      { value: '3', label: 'interfaces: CLI, desktop and web' },
-      { value: 'RAG', label: 'remediation guidance per failed control' },
+      { value: '10', label: 'CIS benchmark checks run concurrently' },
+      { value: '3', label: 'frameworks mapped: CIS, NIST 800-53, ISO 27001' },
+      { value: '4', label: 'report formats for auditors and teams' },
     ],
-    stack: ['Python', 'RAG', 'Azure', 'Django', 'PyQt6', 'Click', 'Supabase'],
+    stack: ['Python', 'RAG', 'Microsoft Entra ID', 'MSAL', 'Django', 'PyQt6', 'Click', 'Supabase'],
     links: {
       github: 'https://github.com/SirajMunir10/AVAGuard-final-year-project',
       live: 'https://ava-guard-industry-project-nu.vercel.app',
     },
-    images: [],
+    images: [
+      {
+        src: '/images/projects/avaguard/landing-desktop.jpg',
+        alt: 'AVAGuard landing page with a compliance score preview',
+        width: 1440,
+        height: 900,
+      },
+      {
+        src: '/images/projects/avaguard/how-it-works-desktop.jpg',
+        alt: 'AVAGuard five-step pipeline: connect, analyse, score, map and report',
+        width: 1440,
+        height: 900,
+      },
+      {
+        src: '/images/projects/avaguard/capabilities-desktop.jpg',
+        alt: 'AVAGuard list of automated CIS benchmark checks',
+        width: 1440,
+        height: 900,
+      },
+      {
+        src: '/images/projects/avaguard/login-desktop.jpg',
+        alt: 'AVAGuard enterprise security portal sign-in',
+        width: 1440,
+        height: 900,
+      },
+      {
+        src: '/images/projects/avaguard/landing-mobile.jpg',
+        alt: 'AVAGuard landing page on a phone',
+        width: 780,
+        height: 1688,
+      },
+    ],
   },
   {
     slug: 'icu-alarm-fatigue',
@@ -130,7 +205,38 @@ export const projects: Project[] = [
     ],
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'React PDF', 'Vitest', 'Playwright'],
     links: { github: 'https://github.com/SirajMunir10/Safwa_Website' },
-    images: [],
+    images: [
+      {
+        src: '/images/projects/al-safwa/home-desktop.jpg',
+        alt: 'Al Safwa Fabrics home page',
+        width: 1440,
+        height: 900,
+      },
+      {
+        src: '/images/projects/al-safwa/catalogue-desktop.jpg',
+        alt: 'Al Safwa catalogue with combinable fabric filters',
+        width: 1440,
+        height: 900,
+      },
+      {
+        src: '/images/projects/al-safwa/fabric-desktop.jpg',
+        alt: 'Al Safwa fabric page with gallery, key specs and quote actions',
+        width: 1440,
+        height: 900,
+      },
+      {
+        src: '/images/projects/al-safwa/mobile-screens.jpg',
+        alt: 'Al Safwa pages on phones',
+        width: 1600,
+        height: 1110,
+      },
+      {
+        src: '/images/projects/al-safwa/pdf-catalogue.jpg',
+        alt: 'Pages of the generated PDF catalogue with QR codes',
+        width: 1600,
+        height: 582,
+      },
+    ],
   },
   {
     slug: 'edenbridge',
