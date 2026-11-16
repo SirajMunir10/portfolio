@@ -5,6 +5,7 @@ export const profile: Profile = {
   fullName: 'Muhammad Siraj Munir',
   role: 'AI Engineer',
   headline: 'I build LLM, RAG and voice AI products that people actually use.',
+  headlineHighlight: 'LLM, RAG and voice AI',
   intro:
     'AI Engineer in Dubai. I take AI products from idea to production: the language model and voice pipeline, the retrieval behind it, the backend it runs on, and the tests and admin tools that keep it reliable once real users arrive.',
   about: [
