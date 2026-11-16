@@ -58,7 +58,7 @@ export function FeaturedProject({ project, index }: { project: Project; index: n
         {project.results.length ? (
           <dl className="mt-6 grid grid-cols-3 gap-2">
             {project.results.map((r) => (
-              <div key={r.label} className="rounded-xl border border-border bg-surface px-3 py-3">
+              <div key={r.label} className="rounded-2xl border border-border bg-surface-2 px-3 py-3">
                 <dt className="sr-only">{r.label}</dt>
                 <dd>
                   <span className="block text-lg font-semibold text-text md:text-xl">{r.value}</span>

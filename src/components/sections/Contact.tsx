@@ -3,24 +3,26 @@ import { ContactForm } from '@/components/contact/ContactForm'
 import { CopyEmail } from '@/components/contact/CopyEmail'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons/BrandIcons'
 import { Reveal } from '@/components/motion/Reveal'
+import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { profile } from '@/content/profile'
 
-const row = 'flex items-center gap-3 rounded-2xl border border-border bg-surface p-4'
+const row = 'flex items-center gap-3 glass rounded-2xl border border-border p-4'
 const iconBox = 'grid size-10 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent'
 
 export function Contact() {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden py-24 md:py-32">
-      <div
-        aria-hidden
-        className="bg-dots absolute inset-0 -z-10 mask-[radial-gradient(ellipse_at_top,black,transparent_70%)]"
-      />
+    <section id="contact" aria-labelledby="contact-title" className="relative py-24 md:py-36">
       <div className="container-page">
         <SectionHeading
           id="contact-title"
+          index="07"
           eyebrow="Contact"
-          title="Let's build something people use."
+          title={
+            <>
+              Let&apos;s build something <Em>people use.</Em>
+            </>
+          }
           description="Hiring for an AI engineering role, planning an AI product or just curious about my work? Send a message and I'll get back to you."
         />
 
@@ -85,7 +87,7 @@ export function Contact() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="rounded-3xl border border-border bg-surface p-6 shadow-card md:p-8">
+            <div className="glass rounded-3xl border border-border p-6 md:p-8">
               <ContactForm />
             </div>
           </Reveal>

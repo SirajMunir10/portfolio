@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import type { Project } from '@/types/content'
 
 const linkClass =
-  'inline-flex h-9 items-center gap-1.5 rounded-full border border-border bg-surface px-3.5 text-sm text-muted transition-colors hover:border-border-strong hover:text-text'
+  'inline-flex h-9 items-center gap-1.5 rounded-full glass border border-border px-3.5 text-sm text-muted transition-colors hover:border-border-strong hover:text-text'
 
 type Props = { project: Project; onOpenPaper?: () => void; className?: string }
 

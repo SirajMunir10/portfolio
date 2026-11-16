@@ -114,7 +114,7 @@ export function Modal({
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
-              'relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl border border-border bg-surface shadow-lift outline-none sm:rounded-3xl',
+              'relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl border border-border bg-surface-solid/90 shadow-lift backdrop-blur-2xl outline-none sm:rounded-3xl',
               sizes[size]
             )}
           >

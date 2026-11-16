@@ -57,7 +57,7 @@ export function SkillsExplorer({ groups }: { groups: SkillGroup[] }) {
               exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className={cn(
-                'rounded-2xl border border-border bg-surface p-6 shadow-card',
+                'glass rounded-3xl border border-border p-6',
                 filter !== 'all' && 'sm:col-span-2 lg:col-span-3'
               )}
             >

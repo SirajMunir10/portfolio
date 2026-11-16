@@ -2,6 +2,7 @@ import { Brain, Languages, MapPin, Mic, Search, Sparkles } from 'lucide-react'
 import Image from 'next/image'
 import { Reveal, Stagger, StaggerItem } from '@/components/motion/Reveal'
 import { Card } from '@/components/ui/Card'
+import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { profile, spokenLanguages } from '@/content/profile'
 
@@ -10,7 +11,16 @@ const focusIcons = [Sparkles, Search, Mic, Brain]
 export function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="container-page py-24 md:py-32">
-      <SectionHeading id="about-title" eyebrow="About" title="AI that holds up when real users arrive." />
+      <SectionHeading
+        index="01"
+        id="about-title"
+        eyebrow="About"
+        title={
+          <>
+            AI that holds up when <Em>real users</Em> arrive.
+          </>
+        }
+      />
 
       <div className="grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
         <div>

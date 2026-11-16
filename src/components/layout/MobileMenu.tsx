@@ -48,7 +48,7 @@ export function MobileMenu({ open, onClose, active }: Props) {
               type="button"
               onClick={onClose}
               aria-label="Close menu"
-              className="grid size-10 place-items-center rounded-full border border-border bg-surface text-text"
+              className="glass grid size-10 place-items-center rounded-full border border-border text-text"
             >
               <X className="size-4.5" aria-hidden />
             </button>

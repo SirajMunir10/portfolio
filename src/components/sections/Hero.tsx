@@ -5,6 +5,7 @@ import { Magnetic } from '@/components/motion/Magnetic'
 import { HeroVisual } from '@/components/three/HeroVisual'
 import { StaticField } from '@/components/three/StaticField'
 import { ButtonLink } from '@/components/ui/Button'
+import { Em } from '@/components/ui/Em'
 import { profile } from '@/content/profile'
 
 const delay = (ms: number) => ({ animationDelay: `${ms}ms` })
@@ -15,16 +16,16 @@ function Headline() {
   return (
     <>
       {before}
-      <span className="bg-linear-to-r from-accent to-accent-2 bg-clip-text text-transparent">
+      <Em tone="warm" className="text-[1.12em] leading-none">
         {headlineHighlight}
-      </span>
+      </Em>
       {after}
     </>
   )
 }
 
 const iconLink =
-  'grid size-10 place-items-center rounded-full border border-border bg-surface/80 text-muted backdrop-blur transition-colors hover:border-border-strong hover:text-text'
+  'glass grid size-10 place-items-center rounded-full border border-border text-muted transition-colors hover:border-border-strong hover:text-text'
 
 export function Hero() {
   return (
@@ -32,23 +33,19 @@ export function Hero() {
       aria-label="Introduction"
       className="relative isolate flex min-h-[100svh] items-center overflow-hidden pt-24 pb-20"
     >
-      {/* Background: dotted grid, then the embedding space, then a fade that keeps the text readable. */}
-      <div
-        aria-hidden
-        className="bg-dots absolute inset-0 -z-20 mask-[radial-gradient(ellipse_at_center,black,transparent_75%)]"
-      />
+      {/* Background: the particle scene, then a soft fade that keeps the text readable over it. */}
       <div className="absolute inset-0 -z-10 opacity-40 md:opacity-100">
         <HeroVisual fallback={<StaticField />} />
       </div>
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-linear-to-b from-bg/70 via-bg/40 to-bg md:bg-linear-to-r md:from-bg md:from-25% md:via-bg/60 md:via-45% md:to-transparent md:to-70%"
+        className="absolute inset-0 -z-10 bg-linear-to-b from-bg/60 via-bg/30 to-transparent md:bg-linear-to-r md:from-bg/85 md:from-20% md:via-bg/40 md:via-45% md:to-transparent md:to-65%"
       />
 
       <div className="container-page">
         <div className="max-w-2xl">
           <p
-            className="animate-rise inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/80 py-1.5 pr-4 pl-3 text-sm text-muted backdrop-blur"
+            className="animate-rise glass inline-flex items-center gap-2.5 rounded-full border border-border py-1.5 pr-4 pl-3 text-sm text-muted"
             style={delay(0)}
           >
             <span className="relative flex size-2">
@@ -66,17 +63,17 @@ export function Hero() {
           </p>
 
           <h1
-            className="animate-rise mt-7 text-5xl font-semibold tracking-tight text-text sm:text-6xl md:text-7xl"
+            className="animate-rise mt-8 text-6xl leading-[0.95] font-semibold tracking-tighter text-text sm:text-7xl md:text-8xl"
             style={delay(80)}
           >
             {profile.name}
-            <span className="mt-2 block font-mono text-base font-normal tracking-normal text-accent sm:text-lg">
+            <span className="mt-4 block font-mono text-sm font-normal tracking-[0.2em] text-accent uppercase sm:text-base">
               {profile.role}
             </span>
           </h1>
 
           <p
-            className="animate-rise mt-7 text-2xl leading-snug font-medium text-text sm:text-3xl"
+            className="animate-rise mt-8 text-2xl leading-snug font-medium tracking-tight text-text sm:text-[2rem]"
             style={delay(180)}
           >
             <Headline />

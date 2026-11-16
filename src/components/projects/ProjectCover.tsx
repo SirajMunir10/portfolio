@@ -6,7 +6,7 @@ import { ResearchDiagram } from './ResearchDiagram'
 export function ProjectCover({ project, priority = false }: { project: Project; priority?: boolean }) {
   const cover = project.images[0]
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-card">
+    <div className="glass overflow-hidden rounded-3xl border border-border">
       <div className="flex items-center gap-1.5 border-b border-border bg-surface-2 px-4 py-2.5" aria-hidden>
         <span className="size-2.5 rounded-full bg-border-strong" />
         <span className="size-2.5 rounded-full bg-border-strong" />
