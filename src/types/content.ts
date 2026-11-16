@@ -116,4 +116,4 @@ export type Research = {
   repo: string
 }
 
-export type SpokenLanguage = { name: string; level: string }
+export type SpokenLanguage = { code: string; name: string; level: string }

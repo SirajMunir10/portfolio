@@ -61,9 +61,17 @@ export const highlights: Highlight[] = [
   { value: 3.68, decimals: 2, label: 'CGPA', detail: 'BS Software Engineering, two merit scholarships' },
 ]
 
+/** Language names are produced in the visitor's language from these codes. */
 export const spokenLanguages: SpokenLanguage[] = [
-  { name: 'English', level: 'Full professional' },
-  { name: 'Urdu', level: 'Native' },
-  { name: 'Hindi', level: 'Full professional' },
-  { name: 'Arabic', level: 'Professional working' },
+  { code: 'en', name: 'English', level: 'Full professional' },
+  { code: 'ur', name: 'Urdu', level: 'Native' },
+  { code: 'hi', name: 'Hindi', level: 'Full professional' },
+  { code: 'ar', name: 'Arabic', level: 'Professional working' },
 ]
+
+/** Where and how Siraj is open to work. Country names are produced in the visitor's language. */
+export const opportunities = {
+  regions: ['AE', 'US', 'DE', 'NL'],
+  modes: ['remote', 'onsite'] as const,
+  relocation: true,
+}
