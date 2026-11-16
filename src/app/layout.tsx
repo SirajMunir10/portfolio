@@ -1,3 +1,5 @@
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { BackToTop } from '@/components/layout/BackToTop'
@@ -7,14 +9,34 @@ import { ScrollNudges } from '@/components/layout/ScrollNudges'
 import { ScrollProgress } from '@/components/layout/ScrollProgress'
 import { SkipLink } from '@/components/layout/SkipLink'
 import { ThemeScript } from '@/components/theme/ThemeScript'
+import { profile } from '@/content/profile'
+import { site, siteUrl } from '@/lib/site'
 import './globals.css'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'], display: 'swap' })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'], display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'Siraj Munir · AI Engineer',
-  description: 'Portfolio of Siraj Munir, AI Engineer in Dubai building LLM, RAG and voice AI products.',
+  metadataBase: new URL(siteUrl()),
+  title: { default: site.title, template: `%s · ${profile.name}` },
+  description: site.description,
+  keywords: site.keywords,
+  authors: [{ name: profile.name, url: profile.socials.linkedin }],
+  creator: profile.name,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'profile',
+    url: '/',
+    siteName: profile.name,
+    title: site.title,
+    description: site.description,
+    locale: 'en_US',
+    firstName: 'Siraj',
+    lastName: 'Munir',
+  },
+  twitter: { card: 'summary_large_image', title: site.title, description: site.description },
+  robots: { index: true, follow: true },
+  formatDetection: { telephone: false },
 }
 
 export const viewport: Viewport = {
@@ -45,6 +67,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         <Footer />
         <BackToTop />
         <ScrollNudges />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
