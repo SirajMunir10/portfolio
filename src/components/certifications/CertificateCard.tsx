@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { useCallback, useState } from 'react'
 import { Badge } from '@/components/ui/Badge'
 import { Modal } from '@/components/ui/Modal'
+import { format } from '@/i18n/config'
+import { useI18n } from '@/i18n/I18nProvider'
 import type { Certification } from '@/types/content'
 
 const action =
@@ -12,6 +14,8 @@ const action =
 
 /** Certificate preview card; opens the full certificate inside the page with download and verify actions. */
 export function CertificateCard({ cert }: { cert: Certification }) {
+  const { dict } = useI18n()
+  const t = dict.certifications
   const [open, setOpen] = useState(false)
   const close = useCallback(() => setOpen(false), [])
 
@@ -21,7 +25,7 @@ export function CertificateCard({ cert }: { cert: Certification }) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          aria-label={`View the ${cert.name} certificate`}
+          aria-label={format(t.viewNamed, { name: cert.name })}
           className="relative block aspect-[1.414] overflow-hidden border-b border-border bg-surface-2"
         >
           <Image
@@ -33,7 +37,7 @@ export function CertificateCard({ cert }: { cert: Certification }) {
           />
           <span className="absolute inset-0 grid place-items-center bg-black/0 transition-colors duration-300 group-hover:bg-black/35">
             <span className="flex translate-y-2 items-center gap-2 rounded-full bg-surface-solid px-4 py-2 text-sm font-medium text-text opacity-0 shadow-lift transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-              <Expand className="size-4" aria-hidden /> View certificate
+              <Expand className="size-4" aria-hidden /> {t.viewCertificate}
             </span>
           </span>
         </button>
@@ -46,15 +50,15 @@ export function CertificateCard({ cert }: { cert: Certification }) {
         <h3 className="mt-2 leading-snug font-semibold text-text">{cert.name}</h3>
         {cert.inProgress ? (
           <p className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-accent-2-soft px-2.5 py-0.5 text-xs font-medium text-accent-2">
-            <span className="size-1.5 animate-pulse rounded-full bg-accent-2" aria-hidden /> In progress
+            <span className="size-1.5 animate-pulse rounded-full bg-accent-2" aria-hidden /> {t.inProgress}
           </p>
         ) : (
           <p className="mt-1.5 text-sm text-subtle">
-            Issued {cert.issued}
-            {cert.expires ? ` · Valid until ${cert.expires}` : ''}
+            {format(t.issued, { date: cert.issued })}
+            {cert.expires ? ` · ${format(t.validUntil, { date: cert.expires })}` : ''}
           </p>
         )}
-        <ul className="mt-4 flex flex-1 flex-wrap content-start gap-1.5" aria-label="Skills covered">
+        <ul className="mt-4 flex flex-1 flex-wrap content-start gap-1.5" aria-label={t.skillsCovered}>
           {cert.skills.map((s) => (
             <li key={s}>
               <Badge>{s}</Badge>
@@ -64,12 +68,12 @@ export function CertificateCard({ cert }: { cert: Certification }) {
         <div className="mt-5 flex flex-wrap gap-2">
           {cert.image ? (
             <button type="button" onClick={() => setOpen(true)} className={action}>
-              <Expand className="size-4" aria-hidden /> View
+              <Expand className="size-4" aria-hidden /> {t.view}
             </button>
           ) : null}
           {cert.verifyUrl ? (
             <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className={action}>
-              <ExternalLink className="size-4" aria-hidden /> Verify
+              <ExternalLink className="size-4" aria-hidden /> {t.verify}
             </a>
           ) : null}
         </div>
@@ -84,7 +88,7 @@ export function CertificateCard({ cert }: { cert: Certification }) {
             <>
               {cert.issuer} · {cert.issued}
               {cert.credentialId ? (
-                <span className="ml-2 font-mono text-xs">ID {cert.credentialId}</span>
+                <span className="ms-2 font-mono text-xs">{format(t.credentialId, { id: cert.credentialId })}</span>
               ) : null}
             </>
           }
@@ -94,13 +98,13 @@ export function CertificateCard({ cert }: { cert: Certification }) {
               {cert.file ? (
                 <a href={cert.file} download className={action}>
                   <Download className="size-4" aria-hidden />
-                  <span className="hidden sm:inline">PDF</span>
+                  <span className="hidden sm:inline">{t.pdf}</span>
                 </a>
               ) : null}
               {cert.verifyUrl ? (
                 <a href={cert.verifyUrl} target="_blank" rel="noopener noreferrer" className={action}>
                   <ExternalLink className="size-4" aria-hidden />
-                  <span className="hidden sm:inline">Verify</span>
+                  <span className="hidden sm:inline">{t.verify}</span>
                 </a>
               ) : null}
             </>
@@ -109,7 +113,7 @@ export function CertificateCard({ cert }: { cert: Certification }) {
         >
           <Image
             src={cert.image.src}
-            alt={`${cert.name} certificate issued to Muhammad Siraj Munir by ${cert.issuer}`}
+            alt={format(t.certificateAlt, { name: cert.name, issuer: cert.issuer })}
             width={cert.image.width}
             height={cert.image.height}
             sizes="(min-width: 1280px) 1100px, 95vw"

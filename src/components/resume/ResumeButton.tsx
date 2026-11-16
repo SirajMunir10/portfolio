@@ -3,7 +3,8 @@
 import { useCallback, useState, type ReactNode } from 'react'
 import { buttonClasses } from '@/components/ui/Button'
 import { DocumentViewer } from '@/components/ui/DocumentViewer'
-import { profile } from '@/content/profile'
+import { format } from '@/i18n/config'
+import { useI18n } from '@/i18n/I18nProvider'
 
 type Props = {
   variant?: 'primary' | 'secondary' | 'ghost'
@@ -24,6 +25,7 @@ export function ResumeButton({
   children,
   onOpen,
 }: Props) {
+  const { dict, profile } = useI18n()
   const [open, setOpen] = useState(false)
   const close = useCallback(() => setOpen(false), [])
   if (!profile.resume) return null
@@ -42,7 +44,7 @@ export function ResumeButton({
       <DocumentViewer
         open={open}
         onClose={close}
-        title={`${profile.name} · CV`}
+        title={format(dict.viewer.cvTitle, { name: profile.name })}
         subtitle={profile.role}
         src={profile.resume.url}
         downloadName={profile.resume.fileName}

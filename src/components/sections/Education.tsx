@@ -5,11 +5,11 @@ import { Timeline, TimelineItem } from '@/components/education/Timeline'
 import { Reveal } from '@/components/motion/Reveal'
 import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { awards, education } from '@/content/education'
-import { research } from '@/content/research'
+import type { Site } from '@/content'
 
-export function Education() {
-  const [degree, ...earlier] = education
+export function Education({ site }: { site: Site }) {
+  const [degree, ...earlier] = site.education
+  const t = site.dict.education
 
   return (
     <section id="education" aria-labelledby="education-title" className="relative py-24 md:py-36">
@@ -17,13 +17,15 @@ export function Education() {
         <SectionHeading
           index="06"
           id="education-title"
-          eyebrow="Education"
+          eyebrow={t.eyebrow}
           title={
             <>
-              Education, research <Em>&amp; awards</Em>
+              {t.titleBefore}
+              <Em>{t.titleEm}</Em>
+              {t.titleAfter}
             </>
           }
-          description="A software engineering degree with consistent top results, and published research on making ICU monitoring more trustworthy."
+          description={t.description}
         />
 
         <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
@@ -51,7 +53,7 @@ export function Education() {
               </ul>
             </TimelineItem>
 
-            {awards.map((a) => (
+            {site.awards.map((a) => (
               <TimelineItem key={a.title} date={a.date}>
                 <h3 className="flex items-start gap-2 font-semibold text-text">
                   <AwardIcon className="mt-0.5 size-4.5 shrink-0 text-accent-2" aria-hidden />
@@ -74,7 +76,7 @@ export function Education() {
           </Timeline>
 
           <Reveal className="lg:sticky lg:top-28 lg:self-start">
-            <PublicationCard research={research} />
+            <PublicationCard research={site.research} />
           </Reveal>
         </div>
       </div>

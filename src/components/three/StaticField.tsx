@@ -33,7 +33,7 @@ export function StaticField() {
     <svg
       viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
       preserveAspectRatio="xMidYMid slice"
-      className="absolute inset-0 size-full"
+      className="absolute inset-0 size-full rtl:-scale-x-100"
       role="presentation"
     >
       {dots.map((d, i) => (

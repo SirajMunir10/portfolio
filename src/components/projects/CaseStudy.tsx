@@ -6,6 +6,7 @@ import { Modal } from '@/components/ui/Modal'
 import type { Project } from '@/types/content'
 import { ImageGallery } from './ImageGallery'
 import { ProjectLinks } from './ProjectLinks'
+import { useI18n } from '@/i18n/I18nProvider'
 import { ResearchDiagram } from './ResearchDiagram'
 
 type Props = { project: Project; open: boolean; onClose: () => void; onOpenPaper: () => void }
@@ -14,6 +15,7 @@ const label = 'mb-3 font-mono text-xs font-medium tracking-[0.18em] text-subtle 
 
 /** Full project story in a dialog: gallery, problem, what was built, results, stack and links. */
 export function CaseStudy({ project, open, onClose, onOpenPaper }: Props) {
+  const { dict } = useI18n()
   return (
     <Modal
       open={open}
@@ -33,11 +35,11 @@ export function CaseStudy({ project, open, onClose, onOpenPaper }: Props) {
             </div>
           )}
           <section>
-            <h3 className={label}>The problem</h3>
+            <h3 className={label}>{dict.projects.problem}</h3>
             <p className="text-base leading-relaxed text-muted">{project.problem}</p>
           </section>
           <section>
-            <h3 className={label}>What I built</h3>
+            <h3 className={label}>{dict.projects.built}</h3>
             <ul className="space-y-3">
               {project.built.map((item) => (
                 <li key={item} className="flex gap-3 leading-relaxed text-muted">
@@ -60,7 +62,7 @@ export function CaseStudy({ project, open, onClose, onOpenPaper }: Props) {
           </div>
           {project.results.length ? (
             <section>
-              <h3 className={label}>Results</h3>
+              <h3 className={label}>{dict.projects.results}</h3>
               <ul className="grid gap-2">
                 {project.results.map((r) => (
                   <li key={r.label} className="rounded-xl border border-border bg-surface-2 px-4 py-3">
@@ -72,7 +74,7 @@ export function CaseStudy({ project, open, onClose, onOpenPaper }: Props) {
             </section>
           ) : null}
           <section>
-            <h3 className={label}>Built with</h3>
+            <h3 className={label}>{dict.common.builtWith}</h3>
             <ul className="flex flex-wrap gap-2">
               {project.stack.map((s) => (
                 <li key={s}>

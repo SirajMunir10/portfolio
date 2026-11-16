@@ -2,20 +2,22 @@
 
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react'
 import { useState } from 'react'
+import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
 import type { SkillGroup } from '@/types/content'
 
 /** Filter chips over the skill groups; cards re-flow smoothly when the filter changes. */
 export function SkillsExplorer({ groups }: { groups: SkillGroup[] }) {
+  const { dict } = useI18n()
   const [filter, setFilter] = useState<string>('all')
   const visible = filter === 'all' ? groups : groups.filter((g) => g.id === filter)
-  const options = [{ id: 'all', title: 'All' }, ...groups.map((g) => ({ id: g.id, title: g.title }))]
+  const options = [{ id: 'all', title: dict.skills.all }, ...groups.map((g) => ({ id: g.id, title: g.title }))]
 
   return (
     <LayoutGroup>
       <div
         role="group"
-        aria-label="Filter skills"
+        aria-label={dict.skills.filter}
         className="-mx-5 mb-8 flex gap-2 overflow-x-auto px-5 pb-1 md:mx-0 md:flex-wrap md:px-0"
       >
         {options.map((o) => {

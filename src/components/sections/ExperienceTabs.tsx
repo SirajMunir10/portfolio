@@ -4,6 +4,7 @@ import { ArrowUpRight, CalendarDays, MapPin } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useId, useRef, useState } from 'react'
 import { Badge } from '@/components/ui/Badge'
+import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
 import type { Experience } from '@/types/content'
 
@@ -16,6 +17,7 @@ export function ExperienceTabs({ items }: { items: Experience[] }) {
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
   const baseId = useId()
   const job = items[index]
+  const { dict } = useI18n()
 
   function onKeyDown(e: React.KeyboardEvent) {
     const last = items.length - 1
@@ -43,7 +45,7 @@ export function ExperienceTabs({ items }: { items: Experience[] }) {
     <div className="grid gap-8 md:grid-cols-[15rem_1fr] md:gap-12">
       <div
         role="tablist"
-        aria-label="Roles"
+        aria-label={dict.experience.roles}
         aria-orientation="vertical"
         onKeyDown={onKeyDown}
         className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 md:mx-0 md:flex-col md:gap-1 md:overflow-visible md:px-0"
@@ -63,7 +65,7 @@ export function ExperienceTabs({ items }: { items: Experience[] }) {
               tabIndex={selected ? 0 : -1}
               onClick={() => setIndex(i)}
               className={cn(
-                'relative shrink-0 rounded-xl px-4 py-3 text-left transition-colors md:w-full',
+                'relative shrink-0 rounded-xl px-4 py-3 text-start transition-colors md:w-full',
                 selected ? 'text-text' : 'text-muted hover:bg-surface-2 hover:text-text'
               )}
             >
@@ -76,7 +78,7 @@ export function ExperienceTabs({ items }: { items: Experience[] }) {
               ) : null}
               <span className="relative block text-sm font-semibold">{item.company}</span>
               <span className="relative block font-mono text-[0.7rem] text-subtle">
-                {item.start} – {item.end ?? 'Present'}
+                {item.start} – {item.end ?? dict.common.present}
               </span>
             </button>
           )
@@ -110,7 +112,7 @@ export function ExperienceTabs({ items }: { items: Experience[] }) {
                     className="inline-flex items-center gap-0.5 underline-offset-4 hover:underline"
                   >
                     {job.company}
-                    <ArrowUpRight className="size-4" aria-hidden />
+                    <ArrowUpRight className="size-4 rtl:-scale-x-100" aria-hidden />
                   </a>
                 ) : (
                   job.company
@@ -120,7 +122,7 @@ export function ExperienceTabs({ items }: { items: Experience[] }) {
             <p className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-xs text-subtle">
               <span className="inline-flex items-center gap-1.5">
                 <CalendarDays className="size-3.5" aria-hidden />
-                {job.start} – {job.end ?? 'Present'}
+                {job.start} – {job.end ?? dict.common.present}
               </span>
               {job.location ? (
                 <span className="inline-flex items-center gap-1.5">
@@ -145,7 +147,7 @@ export function ExperienceTabs({ items }: { items: Experience[] }) {
                 </motion.li>
               ))}
             </ul>
-            <ul className="mt-6 flex flex-wrap gap-2" aria-label="Tools and skills">
+            <ul className="mt-6 flex flex-wrap gap-2" aria-label={dict.experience.tools}>
               {job.stack.map((s) => (
                 <li key={s}>
                   <Badge>{s}</Badge>

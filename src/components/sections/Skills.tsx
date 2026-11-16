@@ -1,26 +1,29 @@
 import { Reveal } from '@/components/motion/Reveal'
 import { Em } from '@/components/ui/Em'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { skillGroups } from '@/content/skills'
+import type { Site } from '@/content'
 import { SkillsExplorer } from './SkillsExplorer'
 
-export function Skills() {
+export function Skills({ site }: { site: Site }) {
+  const t = site.dict.skills
   return (
     <section id="skills" aria-labelledby="skills-title" className="relative py-24 md:py-36">
       <div className="container-page">
         <SectionHeading
           index="04"
           id="skills-title"
-          eyebrow="Skills"
+          eyebrow={t.eyebrow}
           title={
             <>
-              The toolkit behind <Em>the work</Em>
+              {t.titleBefore}
+              <Em>{t.titleEm}</Em>
+              {t.titleAfter}
             </>
           }
-          description="Grouped by what I use them for, from production AI systems to research. Filter to focus on one area."
+          description={t.description}
         />
         <Reveal>
-          <SkillsExplorer groups={skillGroups} />
+          <SkillsExplorer groups={site.skillGroups} />
         </Reveal>
       </div>
     </section>

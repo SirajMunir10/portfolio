@@ -2,6 +2,7 @@
 
 import { Moon, Sun } from 'lucide-react'
 import { useLayoutEffect, useSyncExternalStore } from 'react'
+import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
 import { THEME_STORAGE_KEY } from './ThemeScript'
 
@@ -37,7 +38,8 @@ export function ThemeToggle({ className }: { className?: string }) {
     } catch {}
   }
 
-  const label = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+  const { dict } = useI18n()
+  const label = theme === 'dark' ? dict.common.switchToLight : dict.common.switchToDark
 
   return (
     <button

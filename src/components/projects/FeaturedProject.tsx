@@ -7,6 +7,8 @@ import { Tilt } from '@/components/motion/Tilt'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { DocumentViewer } from '@/components/ui/DocumentViewer'
+import { format } from '@/i18n/config'
+import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
 import type { Project } from '@/types/content'
 import { CaseStudy } from './CaseStudy'
@@ -17,6 +19,7 @@ import { ProjectLinks } from './ProjectLinks'
 export function FeaturedProject({ project, index }: { project: Project; index: number }) {
   const [caseOpen, setCaseOpen] = useState(false)
   const [paperOpen, setPaperOpen] = useState(false)
+  const { dict } = useI18n()
   const flip = index % 2 === 1
   const closeCase = useCallback(() => setCaseOpen(false), [])
   const closePaper = useCallback(() => setPaperOpen(false), [])
@@ -35,8 +38,8 @@ export function FeaturedProject({ project, index }: { project: Project; index: n
           <button
             type="button"
             onClick={() => setCaseOpen(true)}
-            aria-label={`Open the ${project.title} case study`}
-            className="group/cover block w-full rounded-2xl text-left"
+            aria-label={format(dict.projects.openCase, { title: project.title })}
+            className="group/cover block w-full rounded-2xl text-start"
           >
             <ProjectCover project={project} />
           </button>
@@ -69,7 +72,7 @@ export function FeaturedProject({ project, index }: { project: Project; index: n
           </dl>
         ) : null}
 
-        <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Built with">
+        <ul className="mt-5 flex flex-wrap gap-1.5" aria-label={dict.common.builtWith}>
           {project.stack.slice(0, 6).map((s) => (
             <li key={s}>
               <Badge>{s}</Badge>
@@ -77,16 +80,16 @@ export function FeaturedProject({ project, index }: { project: Project; index: n
           ))}
           {project.stack.length > 6 ? (
             <li>
-              <Badge tone="accent">+{project.stack.length - 6} more</Badge>
+              <Badge tone="accent">{format(dict.common.more, { count: project.stack.length - 6 })}</Badge>
             </li>
           ) : null}
         </ul>
 
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <Button size="sm" onClick={() => setCaseOpen(true)}>
-            Read the case study
+            {dict.projects.readCase}
             <ArrowRight
-              className="size-4 transition-transform group-hover/button:translate-x-0.5"
+              className="size-4 transition-transform group-hover/button:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover/button:-translate-x-0.5"
               aria-hidden
             />
           </Button>
@@ -100,7 +103,7 @@ export function FeaturedProject({ project, index }: { project: Project; index: n
           open={paperOpen}
           onClose={closePaper}
           title={project.title}
-          subtitle="Research paper (PDF)"
+          subtitle={dict.projects.paperPdf}
           src={project.links.paper}
           downloadName="Siraj-Munir-ICU-Alarm-Fatigue-Paper.pdf"
         />

@@ -4,6 +4,7 @@ import { X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useId, useRef, useSyncExternalStore, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
 
 type Props = {
@@ -52,6 +53,7 @@ export function Modal({
   const panel = useRef<HTMLDivElement>(null)
   const titleId = useId()
   const mounted = useMounted()
+  const { dict } = useI18n()
 
   useEffect(() => {
     if (!open) return
@@ -130,7 +132,7 @@ export function Modal({
                 <button
                   type="button"
                   onClick={onClose}
-                  aria-label="Close"
+                  aria-label={dict.common.close}
                   className="grid size-9 place-items-center rounded-full border border-border text-muted transition-colors hover:text-text"
                 >
                   <X className="size-4" aria-hidden />
