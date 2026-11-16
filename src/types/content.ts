@@ -10,6 +10,8 @@ export type Profile = {
   /** Part of the headline drawn with the accent gradient. Must appear in `headline`. */
   headlineHighlight: string
   intro: string
+  /** One-line belief shown on the cinematic portrait. */
+  quote: string
   about: string[]
   location: string
   timezone: string
