@@ -1,12 +1,12 @@
-/** Page sections in order. Ids match the section elements, so links and the active-section highlight stay in sync. */
+/**
+ * Main navigation. `href` is relative to the language root: "/projects" is a page, "#contact" a section
+ * of the home page. On the home page, `id` also matches the section element for the active highlight.
+ */
 export const navigation = [
-  { id: 'about', label: 'About' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'certifications', label: 'Certifications' },
-  { id: 'education', label: 'Education' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'projects', href: '/projects' },
+  { id: 'experience', href: '#experience' },
+  { id: 'about', href: '/about' },
+  { id: 'contact', href: '#contact' },
 ] as const
 
-export type SectionId = (typeof navigation)[number]['id']
+export type NavId = (typeof navigation)[number]['id']

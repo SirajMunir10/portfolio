@@ -44,8 +44,10 @@ export function Hero({ site }: { site: Site }) {
 
       <div className="container-page">
         <div className="max-w-2xl">
-          <p
-            className="animate-rise glass inline-flex items-center gap-2.5 rounded-full border border-border py-1.5 ps-3 pe-4 text-sm text-muted"
+          <a
+            href="#availability"
+            title={dict.opportunities.badgeLink}
+            className="animate-rise glass inline-flex items-center gap-2.5 rounded-full border border-border py-1.5 ps-3 pe-4 text-sm text-muted transition-colors hover:border-border-strong hover:text-text"
             style={delay(0)}
           >
             <span className="relative flex size-2">
@@ -60,7 +62,7 @@ export function Hero({ site }: { site: Site }) {
               <MapPin className="size-3.5" aria-hidden />
               {profile.location}
             </span>
-          </p>
+          </a>
 
           <h1
             className="animate-rise mt-8 text-6xl leading-[0.95] font-semibold tracking-tighter text-text sm:text-7xl md:text-8xl"
@@ -116,8 +118,8 @@ export function Hero({ site }: { site: Site }) {
       </div>
 
       <a
-        href="#about"
-        aria-label={dict.hero.scrollToAbout}
+        href="#projects"
+        aria-label={dict.hero.scrollToWork}
         className="animate-rise absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-[0.7rem] tracking-[0.2em] text-subtle uppercase sm:flex"
         style={delay(900)}
       >

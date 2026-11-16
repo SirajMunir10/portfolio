@@ -11,7 +11,7 @@ export function Certifications({ site }: { site: Site }) {
   return (
     <section id="certifications" aria-labelledby="certifications-title" className="container-page py-24 md:py-32">
       <SectionHeading
-        index="05"
+        index="02"
         id="certifications-title"
         eyebrow={t.eyebrow}
         title={

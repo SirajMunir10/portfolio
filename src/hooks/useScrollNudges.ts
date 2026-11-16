@@ -1,21 +1,25 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
 export type NudgeId = 'after-projects' | 'before-contact'
 
 type Rule = {
   id: NudgeId
-  /** Section whose arrival on screen triggers the nudge. */
-  trigger: string
+  /** Sections whose arrival on screen triggers the nudge (on whichever page they appear). */
+  triggers: string[]
   /** Minimum time on the page before it may appear. */
   minSeconds: number
 }
 
 const RULES: Rule[] = [
-  { id: 'after-projects', trigger: 'skills', minSeconds: 15 },
-  { id: 'before-contact', trigger: 'education', minSeconds: 25 },
+  { id: 'after-projects', triggers: ['experience', 'skills'], minSeconds: 15 },
+  { id: 'before-contact', triggers: ['about', 'education'], minSeconds: 25 },
 ]
+
+/** Once one of these is on screen the visitor has found the way to get in touch, so nudges stop. */
+const CONTACT_SECTIONS = ['availability', 'contact']
 
 const STORAGE_KEY = 'nudges-seen'
 const REMEMBER_DAYS = 7
@@ -47,6 +51,7 @@ function remember(id: NudgeId) {
  */
 export function useScrollNudges() {
   const [active, setActive] = useState<NudgeId | null>(null)
+  const pathname = usePathname()
 
   useEffect(() => {
     const loadedAt = Date.now()
@@ -69,19 +74,19 @@ export function useScrollNudges() {
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue
-          if (entry.target.id === 'contact') {
+          if (CONTACT_SECTIONS.includes(entry.target.id)) {
             reachedContact = true
             current = null
             setActive(null)
             continue
           }
-          const rule = RULES.find((r) => r.trigger === entry.target.id)
+          const rule = RULES.find((r) => r.triggers.includes(entry.target.id))
           if (rule) tryShow(rule)
         }
       },
       { rootMargin: '0px 0px -40% 0px' }
     )
-    for (const id of [...RULES.map((r) => r.trigger), 'contact']) {
+    for (const id of [...RULES.flatMap((r) => r.triggers), ...CONTACT_SECTIONS]) {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
     }
@@ -94,7 +99,7 @@ export function useScrollNudges() {
       observer.disconnect()
       window.removeEventListener('nudge-dismissed', onDismissed)
     }
-  }, [])
+  }, [pathname])
 
   const dismiss = useCallback(() => {
     setActive(null)

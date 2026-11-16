@@ -2,8 +2,9 @@
 
 import { Check, Globe } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
+import { usePathname } from 'next/navigation'
 import { useEffect, useId, useRef, useState } from 'react'
-import { LOCALE_COOKIE, localeNames, locales, type Locale } from '@/i18n/config'
+import { LOCALE_COOKIE, localeNames, locales, pathWithoutLocale, type Locale } from '@/i18n/config'
 import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
 
@@ -12,17 +13,23 @@ function remember(locale: Locale) {
   document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; SameSite=Lax`
 }
 
-/** On click: save the choice and keep the visitor at the same section in the new language. */
+/** On click: save the choice and keep the visitor on the same page and section in the new language. */
 function onPick(locale: Locale) {
   return (e: React.MouseEvent<HTMLAnchorElement>) => {
     remember(locale)
-    e.currentTarget.href = `/${locale}${window.location.hash}`
+    e.currentTarget.href = `/${locale}${pathWithoutLocale(window.location.pathname)}${window.location.hash}`
   }
+}
+
+/** The current page in each language, so the links are right even before any click. */
+function useRest() {
+  return pathWithoutLocale(usePathname())
 }
 
 /** Compact language menu for the header. */
 export function LanguageSwitcher({ className }: { className?: string }) {
   const { locale, dict } = useI18n()
+  const rest = useRest()
   const [open, setOpen] = useState(false)
   const menuId = useId()
   const root = useRef<HTMLDivElement>(null)
@@ -68,7 +75,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
               <li key={l} role="none">
                 <a
                   role="menuitem"
-                  href={`/${l}`}
+                  href={`/${l}${rest}`}
                   hrefLang={l}
                   lang={l}
                   onClick={onPick(l)}
@@ -93,12 +100,13 @@ export function LanguageSwitcher({ className }: { className?: string }) {
 /** Inline language list for the mobile menu. */
 export function LanguageList() {
   const { locale, dict } = useI18n()
+  const rest = useRest()
   return (
     <div role="group" aria-label={dict.nav.language} className="flex flex-wrap gap-2">
       {locales.map((l) => (
         <a
           key={l}
-          href={`/${l}`}
+          href={`/${l}${rest}`}
           hrefLang={l}
           lang={l}
           onClick={onPick(l)}

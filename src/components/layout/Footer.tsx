@@ -1,14 +1,15 @@
 import { ArrowUp, Mail, MapPin } from 'lucide-react'
+import Link from 'next/link'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons/BrandIcons'
 import type { Site } from '@/content'
-import { format } from '@/i18n/config'
+import { format, localeHref } from '@/i18n/config'
 import { Logo } from './Logo'
 
 const socialClass =
   'grid size-10 place-items-center rounded-full border border-border text-muted transition-colors hover:border-border-strong hover:text-text'
 
 export function Footer({ site }: { site: Site }) {
-  const { profile, navigation, dict } = site
+  const { profile, navigation, dict, locale } = site
   return (
     <footer className="border-t border-border">
       <div className="container-page grid gap-10 py-12 md:grid-cols-[1.4fr_1fr_auto] md:items-start">
@@ -30,9 +31,9 @@ export function Footer({ site }: { site: Site }) {
           <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
             {navigation.map((item) => (
               <li key={item.id}>
-                <a href={`#${item.id}`} className="text-muted transition-colors hover:text-text">
+                <Link href={localeHref(locale, item.href)} className="text-muted transition-colors hover:text-text">
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

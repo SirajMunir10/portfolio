@@ -2,9 +2,11 @@
 
 import { ArrowUpRight, Mail, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
+import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons/BrandIcons'
 import { ResumeButton } from '@/components/resume/ResumeButton'
+import { localeHref } from '@/i18n/config'
 import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
 import { LanguageList } from './LanguageSwitcher'
@@ -12,7 +14,7 @@ import { LanguageList } from './LanguageSwitcher'
 type Props = { open: boolean; onClose: () => void; active: string | null }
 
 export function MobileMenu({ open, onClose, active }: Props) {
-  const { dict, profile, navigation } = useI18n()
+  const { dict, profile, navigation, locale } = useI18n()
   const closeRef = useRef<HTMLButtonElement>(null)
 
   // While open: lock page scroll, close on Escape, and move focus into the menu.
@@ -41,7 +43,7 @@ export function MobileMenu({ open, onClose, active }: Props) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-70 flex flex-col overflow-y-auto bg-bg xl:hidden"
+          className="fixed inset-0 z-70 flex flex-col overflow-y-auto bg-bg lg:hidden"
         >
           <div className="container-page flex h-16 shrink-0 items-center justify-end">
             <button
@@ -64,9 +66,10 @@ export function MobileMenu({ open, onClose, active }: Props) {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.05 + i * 0.05, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <a
-                    href={`#${item.id}`}
+                  <Link
+                    href={localeHref(locale, item.href)}
                     onClick={onClose}
+                    aria-current={active === item.id ? 'true' : undefined}
                     className={cn(
                       'flex items-baseline gap-4 py-1.5 text-4xl font-semibold tracking-tight transition-colors',
                       active === item.id ? 'text-accent' : 'text-text hover:text-accent'
@@ -74,7 +77,7 @@ export function MobileMenu({ open, onClose, active }: Props) {
                   >
                     <span className="font-mono text-sm font-normal text-subtle">{String(i + 1).padStart(2, '0')}</span>
                     {item.label}
-                  </a>
+                  </Link>
                 </motion.li>
               ))}
             </ul>
