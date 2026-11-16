@@ -5,6 +5,7 @@ export const navigation = [
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
   { id: 'certifications', label: 'Certifications' },
+  { id: 'education', label: 'Education' },
   { id: 'contact', label: 'Contact' },
 ] as const
 
