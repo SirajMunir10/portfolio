@@ -1,12 +1,12 @@
 import type { MetadataRoute } from 'next'
 import { profile } from '@/content/profile'
-import { site } from '@/lib/site'
+import { en } from '@/i18n/dictionaries/en'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${profile.name} · ${profile.role}`,
     short_name: profile.name,
-    description: site.description,
+    description: en.meta.description,
     start_url: '/',
     display: 'standalone',
     background_color: '#f6f4f1',
