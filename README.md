@@ -1,10 +1,12 @@
-# Siraj Munir · Portfolio
+# Siraj Munir Â· Portfolio
 
 Personal portfolio of Siraj Munir, AI and LLM Engineer based in Dubai, open to AI Engineer roles in the UAE, USA, Germany and the Netherlands (remote or on-site).
 
+**Live site: [sirajmunir-portfolio.vercel.app](https://sirajmunir-portfolio.vercel.app)**
+
 ## What's inside
 
-- **Four languages**: English, Nederlands, Deutsch and العربية (right to left), chosen from the browser language or the switcher and remembered with a cookie.
+- **Four languages**: English, Nederlands, Deutsch and Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© (right to left), chosen from the browser language or the switcher and remembered with a cookie.
 - **Pages**: a short home page, a projects index, a case study page per project, and an about page with skills, certificates, education and published research.
 - **3D hero**: a WebGL particle field (React Three Fiber, custom shaders) that morphs between four shapes and surfaces facts as it moves. It falls back to a static image when WebGL or motion is unavailable.
 - **Contact form**: validated on both sides with Zod, protected by a honeypot, a timing check and rate limiting, and delivered by email through Resend. Messages are not stored.
