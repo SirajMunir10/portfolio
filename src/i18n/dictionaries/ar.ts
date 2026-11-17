@@ -50,7 +50,7 @@ export const ar: Dictionary = {
     seeWork: 'شاهد أعمالي',
     getInTouch: 'تواصل معي',
     scroll: 'مرّر',
-    scrollToWork: 'انتقل إلى الأعمال المختارة',
+    scrollToWork: 'مرّر إلى الأعمال المختارة',
     sceneHint: 'حرّك المؤشر لبعثرة الجسيمات · انقر على الشكل لتغييره',
   },
   highlights: { label: 'أبرز الأرقام' },

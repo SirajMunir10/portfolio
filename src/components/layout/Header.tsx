@@ -58,9 +58,12 @@ export function Header() {
             <Link
               href={isHome ? '#top' : localeHref(locale)}
               className="flex shrink-0 items-center gap-3 rounded-xl"
-              aria-label={format(isHome ? dict.nav.backToTopLogo : dict.nav.homeLogo, { name: profile.name })}
             >
               <Logo />
+              {/* Phones show only the logo, so the link needs a spoken name; wider screens read the visible name. */}
+              <span className="sr-only sm:hidden">
+                {format(isHome ? dict.nav.backToTopLogo : dict.nav.homeLogo, { name: profile.name })}
+              </span>
               <span className="hidden flex-col leading-tight sm:flex">
                 <span className="text-sm font-semibold text-text">{profile.name}</span>
                 <span className="font-mono text-[0.7rem] whitespace-nowrap text-subtle">{profile.role}</span>

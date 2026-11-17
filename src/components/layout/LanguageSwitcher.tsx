@@ -54,10 +54,12 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={menuId}
-        aria-label={`${dict.nav.language}: ${localeNames[locale]}`}
         className="glass flex h-10 items-center gap-1.5 rounded-full border border-border px-3 text-sm font-medium text-text transition-colors hover:border-border-strong"
       >
         <Globe className="size-4 text-muted" aria-hidden />
+        <span className="sr-only">
+          {dict.nav.language}: {localeNames[locale]},{' '}
+        </span>
         <span className="uppercase">{locale}</span>
       </button>
       <AnimatePresence>

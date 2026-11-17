@@ -30,11 +30,8 @@ export function FeaturedProject({ project, index }: { project: Project; index: n
     >
       <Reveal className={cn(flip && 'lg:order-2')}>
         <Tilt className="rounded-2xl">
-          <Link
-            href={href}
-            aria-label={format(dict.projects.openCase, { title: project.title })}
-            className="group/cover block w-full rounded-2xl"
-          >
+          {/* Same destination as the "Read the case study" button, so it is skipped by keyboard and screen readers. */}
+          <Link href={href} tabIndex={-1} aria-hidden className="group/cover block w-full rounded-2xl">
             <ProjectCover project={project} />
           </Link>
         </Tilt>

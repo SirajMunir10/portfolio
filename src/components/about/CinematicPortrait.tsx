@@ -22,7 +22,7 @@ export function CinematicPortrait() {
 
   const [first, ...rest] = profile.fullName.split(' ')
   const bar =
-    'relative z-30 flex h-9 items-center justify-between bg-black px-5 font-mono text-[0.62rem] tracking-[0.3em] text-white/45 uppercase md:h-11 md:px-8'
+    'relative z-30 flex h-9 items-center justify-between bg-black px-5 font-mono text-[0.62rem] tracking-[0.3em] text-white/65 uppercase md:h-11 md:px-8'
 
   return (
     <figure
@@ -73,7 +73,7 @@ export function CinematicPortrait() {
           style={reduce ? undefined : { y: textY }}
           className="relative z-10 -mt-24 flex flex-col justify-end px-6 pb-8 md:order-1 md:mt-0 md:px-12 md:pb-14"
         >
-          <p className="font-mono text-[0.65rem] tracking-[0.35em] text-white/50 uppercase">{dict.about.featuring}</p>
+          <p className="font-mono text-[0.65rem] tracking-[0.35em] text-white/65 uppercase">{dict.about.featuring}</p>
           <p className="mt-4 font-serif text-6xl leading-[0.9] italic md:text-7xl lg:text-8xl" dir="ltr" lang="en">
             {first}
             <br />
