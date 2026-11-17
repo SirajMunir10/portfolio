@@ -75,7 +75,9 @@ export function MobileMenu({ open, onClose, active, isHome }: Props) {
                       active === item.id ? 'text-accent' : 'text-text hover:text-accent'
                     )}
                   >
-                    <span className="font-mono text-sm font-normal text-subtle">{String(i + 1).padStart(2, '0')}</span>
+                    <span aria-hidden className="font-mono text-sm font-normal text-subtle">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
                     {item.label}
                   </Link>
                 </motion.li>

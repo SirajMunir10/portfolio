@@ -5,7 +5,8 @@ type Tone = 'neutral' | 'accent' | 'teal'
 
 const tones: Record<Tone, string> = {
   neutral: 'border-border bg-surface-2 text-muted',
-  accent: 'border-accent/20 bg-accent-soft text-accent',
+  // The deeper accent keeps small text readable on the tinted background.
+  accent: 'border-accent/20 bg-accent-soft text-accent-hover',
   teal: 'border-accent-2/25 bg-accent-2-soft text-accent-2',
 }
 
