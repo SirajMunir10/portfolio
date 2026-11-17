@@ -20,12 +20,18 @@ export function useActiveNav() {
   const isHome = rest === '' || rest === '/'
   const section = useActiveSection(isHome ? HOME_SECTIONS : NONE, pathname)
 
+  // On the home page Home stays current until the reader reaches a section that has its own item.
   const active = isHome
     ? section === 'availability'
       ? 'contact'
-      : section
+      : (section ?? 'home')
     : (navigation.find((n) => n.href.startsWith('/') && (rest === n.href || rest.startsWith(`${n.href}/`)))?.id ??
       null)
 
   return { active, isHome }
+}
+
+/** Where a navigation item points. Home, when already on the home page, just scrolls back to the top. */
+export function navHref(locale: string, href: string, isHome: boolean) {
+  return href === '' && isHome ? '#top' : `/${locale}${href}`
 }

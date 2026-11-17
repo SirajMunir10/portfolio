@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { ResumeButton } from '@/components/resume/ResumeButton'
 import { ThemeToggle } from '@/components/theme/ThemeToggle'
 import { ButtonLink } from '@/components/ui/Button'
-import { useActiveNav } from '@/hooks/useActiveNav'
+import { navHref, useActiveNav } from '@/hooks/useActiveNav'
 import { format, localeHref } from '@/i18n/config'
 import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
@@ -73,8 +73,8 @@ export function Header() {
                 return (
                   <li key={item.id} className="relative">
                     <Link
-                      href={localeHref(locale, item.href)}
-                      aria-current={isActive ? (item.href.startsWith('/') ? 'page' : 'true') : undefined}
+                      href={navHref(locale, item.href, isHome)}
+                      aria-current={isActive ? (item.href.startsWith('#') ? 'true' : 'page') : undefined}
                       className={cn(
                         'relative z-10 block rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors',
                         isActive ? 'text-text' : 'text-muted hover:text-text'
@@ -117,7 +117,7 @@ export function Header() {
           </nav>
         </div>
       </motion.header>
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} active={active} />
+      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} active={active} isHome={isHome} />
     </>
   )
 }
