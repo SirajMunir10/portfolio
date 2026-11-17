@@ -6,14 +6,14 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import { GitHubIcon, LinkedInIcon } from '@/components/icons/BrandIcons'
 import { ResumeButton } from '@/components/resume/ResumeButton'
-import { localeHref } from '@/i18n/config'
+import { navHref } from '@/hooks/useActiveNav'
 import { useI18n } from '@/i18n/I18nProvider'
 import { cn } from '@/lib/utils'
 import { LanguageList } from './LanguageSwitcher'
 
-type Props = { open: boolean; onClose: () => void; active: string | null }
+type Props = { open: boolean; onClose: () => void; active: string | null; isHome: boolean }
 
-export function MobileMenu({ open, onClose, active }: Props) {
+export function MobileMenu({ open, onClose, active, isHome }: Props) {
   const { dict, profile, navigation, locale } = useI18n()
   const closeRef = useRef<HTMLButtonElement>(null)
 
@@ -67,7 +67,7 @@ export function MobileMenu({ open, onClose, active }: Props) {
                   transition={{ delay: 0.05 + i * 0.05, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <Link
-                    href={localeHref(locale, item.href)}
+                    href={navHref(locale, item.href, isHome)}
                     onClick={onClose}
                     aria-current={active === item.id ? 'true' : undefined}
                     className={cn(

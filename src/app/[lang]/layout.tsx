@@ -89,6 +89,8 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
       lang={locale}
       dir={direction(locale)}
       data-theme="light"
+      // Smooth scrolling is for in-page links; this lets Next.js jump instantly on page navigations.
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${fonts.join(' ')} antialiased`}
     >
