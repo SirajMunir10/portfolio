@@ -38,6 +38,17 @@ export function languageAlternates(path = '') {
   }
 }
 
+/**
+ * The shared social preview card (app/opengraph-image.tsx). It lives at the app root, outside the
+ * language segment, so pages point to it explicitly; otherwise LinkedIn and others show no image.
+ */
+export const socialImage = {
+  url: '/opengraph-image',
+  width: 1200,
+  height: 630,
+  alt: 'Siraj Munir, AI Engineer in Dubai',
+}
+
 /** Metadata for an inner page: its own title, description, canonical URL and language versions. */
 export function pageMetadata(locale: Locale, path: string, title: string, description: string): Metadata {
   return {
@@ -50,8 +61,9 @@ export function pageMetadata(locale: Locale, path: string, title: string, descri
       title,
       description,
       locale: ogLocale[locale],
+      images: [socialImage],
     },
-    twitter: { card: 'summary_large_image', title, description },
+    twitter: { card: 'summary_large_image', title, description, images: [socialImage.url] },
   }
 }
 

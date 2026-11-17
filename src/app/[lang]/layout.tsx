@@ -13,7 +13,7 @@ import { ThemeScript } from '@/components/theme/ThemeScript'
 import { getSite } from '@/content'
 import { defaultLocale, direction, isLocale, locales, ogLocale } from '@/i18n/config'
 import { I18nProvider } from '@/i18n/I18nProvider'
-import { keywords, languageAlternates, siteUrl } from '@/lib/site'
+import { keywords, languageAlternates, siteUrl, socialImage } from '@/lib/site'
 import '../globals.css'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'], display: 'swap' })
@@ -63,8 +63,14 @@ export async function generateMetadata({ params }: LayoutProps<'/[lang]'>): Prom
       alternateLocale: locales.filter((l) => l !== locale).map((l) => ogLocale[l]),
       firstName: 'Siraj',
       lastName: 'Munir',
+      images: [socialImage],
     },
-    twitter: { card: 'summary_large_image', title: dict.meta.title, description: dict.meta.description },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.meta.title,
+      description: dict.meta.description,
+      images: [socialImage.url],
+    },
     robots: { index: true, follow: true },
     formatDetection: { telephone: false },
   }
